@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_cedetes"
+        android:title="Cedetes"
+        android:icon="@drawable/ic_goal"
+        android:iconTint="@color/grayDark"/>
+    <item
+        android:id="@+id/nav_debts"
+        android:title="Deudas"
+        android:icon="@drawable/ic_goal"
+        android:iconTint="@color/grayDark"/>
+    <item
+        android:id="@+id/nav_purchases"
+        android:title="Compras pendientes"
+        android:icon="@drawable/ic_goal"
+        android:iconTint="@color/grayDark"/>
+</menu>

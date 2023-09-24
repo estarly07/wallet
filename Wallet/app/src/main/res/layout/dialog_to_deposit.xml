@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_corners_top_rounded"
+    android:layout_gravity="bottom"
+    android:backgroundTint="@color/white"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/btnCloseDialog"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnDepositOrTakeOfMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/percentageSpent"
+            android:textSize="@dimen/normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <EditText
+        android:id="@+id/edtAmount"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="25dp"
+        android:background="@drawable/background_outline"
+        android:backgroundTint="@color/grayLight2"
+        android:layout_marginVertical="10dp"
+        android:hint="$ 1.000.000"
+        android:inputType="numberDecimal"
+        android:textSize="@dimen/subtitle"
+        android:padding="10dp"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/txtWhyTakeOfMoney"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginHorizontal="25dp"
+        android:text="¿Por qué quieres sacar el dinero? (Opcional)"
+        android:textColor="@color/grayLight"
+        android:textSize="@dimen/normal" />
+
+    <EditText
+        android:id="@+id/edtWhyTakeOfMoney"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:visibility="gone"
+        android:layout_marginVertical="10dp"
+        android:hint="Para:"
+        android:background="@drawable/background_outline"
+        android:backgroundTint="@color/grayLight2"
+        android:inputType="text"
+        android:padding="10dp"
+        android:textSize="@dimen/subtitle" />
+    <TextView
+        android:id="@+id/txtTitleDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grayDark"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:textSize="@dimen/title"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/txtDescriptionDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:textColor="@color/grayLight"
+        android:textSize="@dimen/normal" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerDistribution"
+        android:layout_width="match_parent"
+        tools:listitem="@layout/item_distribution"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>

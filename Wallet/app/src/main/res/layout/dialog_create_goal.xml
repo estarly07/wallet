@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@drawable/background_corners_top_rounded"
+    android:backgroundTint="@color/white"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <ImageButton
+            android:id="@+id/btnCloseDialog"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnCreate"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/percentageSpent"
+            android:text="Crear"
+            android:textSize="@dimen/normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Crear una meta"
+        android:textColor="@color/grayDark"
+        android:textSize="@dimen/title"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="Monto de la meta"
+        android:textColor="@color/grayLight"
+        android:textSize="@dimen/normal" />
+
+    <EditText
+        android:id="@+id/edtAmountTotalGoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginStart="35dp"
+        android:hint="$ 1.000.000"
+        android:background="@drawable/background_outline"
+        android:backgroundTint="@color/grayLight2"
+        android:inputType="numberDecimal"
+        android:padding="10dp"
+        android:textSize="@dimen/subtitle" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="Monto inicial"
+        android:textColor="@color/grayLight"
+        android:textSize="@dimen/normal" />
+
+    <EditText
+        android:id="@+id/edtAmountInitialGoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginStart="35dp"
+        android:hint="$ 1.000.000"
+        android:background="@drawable/background_outline"
+        android:backgroundTint="@color/grayLight2"
+        android:inputType="numberDecimal"
+        android:padding="10dp"
+        android:textSize="@dimen/subtitle" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="Imagen (Url)"
+        android:textColor="@color/grayLight"
+        android:textSize="@dimen/normal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginStart="35dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/imgGoalCreate"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="15dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/no_found"/>
+        <EditText
+            android:id="@+id/edtImageGoal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="https://iamge.com"
+            android:background="@drawable/background_outline"
+            android:backgroundTint="@color/grayLight2"
+            android:inputType="textUri"
+            android:padding="10dp"
+            android:textSize="@dimen/subtitle" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="¿Cuál nombre tiene esta meta?"
+        android:textColor="@color/grayLight"
+        android:textSize="@dimen/normal" />
+
+    <EditText
+        android:id="@+id/edtNameGoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginStart="35dp"
+        android:background="@drawable/background_outline"
+        android:backgroundTint="@color/grayLight2"
+        android:inputType="text"
+        android:padding="10dp"
+        android:textSize="@dimen/subtitle" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="¿La meta tiene una descripción? (Opcional)"
+        android:textColor="@color/grayLight"
+        android:textSize="@dimen/normal" />
+
+    <EditText
+        android:id="@+id/edtDescriptionGoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginStart="35dp"
+        android:background="@drawable/background_outline"
+        android:backgroundTint="@color/grayLight2"
+        android:inputType="text"
+        android:padding="10dp"
+        android:textSize="@dimen/subtitle" />
+</LinearLayout>

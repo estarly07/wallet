@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingVertical="10dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressDebtItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        app:trackColor="#CACACA"
+        android:progress="0" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtNameDebtItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name debt"
+            android:textColor="@color/black"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textSize="@dimen/subtitle"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtDateDebtItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="$145.000.000"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/normal" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/txtMissingAmountDebtItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$-145.00"
+        android:lines="1"
+        android:ellipsize="end"
+        android:textColor="@color/salary"
+        android:textSize="@dimen/subtitle"
+        android:textStyle="bold" />
+
+</LinearLayout>
