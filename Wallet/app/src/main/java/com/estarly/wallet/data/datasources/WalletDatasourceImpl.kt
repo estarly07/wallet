@@ -55,4 +55,5 @@ class WalletDatasourceImpl(
     override suspend fun insertPendingPurchase(pendingPurchaseEntity: PendingPurchaseEntity) = pendingPurchaseDao.insertPendingPurchase(pendingPurchaseEntity)
     override suspend fun getPendingPurchases(): List<PendingPurchaseEntity>? = pendingPurchaseDao.getAllPendingPurchases()
     override suspend fun updatePendingPurchases(pendingPurchaseEntity: PendingPurchaseEntity) = pendingPurchaseDao.updatePendingPurchase(pendingPurchaseEntity)
+    override suspend fun deletePendingPurchase(pendingPurchaseEntity: PendingPurchaseEntity) = pendingPurchaseDao.deletePendingPurchase(pendingPurchaseEntity)
 }

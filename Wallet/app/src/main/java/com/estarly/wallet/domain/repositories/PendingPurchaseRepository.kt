@@ -6,4 +6,5 @@ interface PendingPurchaseRepository {
     suspend fun insertPendingPurchase(pendingPurchaseModel: PendingPurchaseModel)
     suspend fun getPendingPurchases():List<PendingPurchaseModel>
     suspend fun updatePendingPurchases(pendingPurchaseModel: PendingPurchaseModel)
+    suspend fun deletePendingPurchase(pendingPurchaseModel: PendingPurchaseModel)
 }

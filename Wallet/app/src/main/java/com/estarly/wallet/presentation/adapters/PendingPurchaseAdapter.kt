@@ -20,6 +20,7 @@ import com.estarly.wallet.domain.models.PendingPurchaseModel
 class PendingPurchaseAdapter(
     private val list: List<PendingPurchaseModel>,
     private val onUpdate : (PendingPurchaseModel) -> Unit,
+    private val onDelete : (PendingPurchaseModel) -> Unit,
     private val onFinishedPurchase : (PendingPurchaseModel, Boolean) -> Unit
 ) : RecyclerView.Adapter<PendingPurchaseAdapter.Holder>() {
     class Holder(val binding: ItemPendingPurchaseBinding) : ViewHolder(binding.root)
@@ -60,6 +61,10 @@ class PendingPurchaseAdapter(
         }
         popupView.findViewById<TextView>(R.id.txtEditPendingPurchase).setOnClickListener {
             onUpdate(pendingPurchase)
+            popupWindow.dismiss()
+        }
+        popupView.findViewById<TextView>(R.id.txtDeletePendingPurchase).setOnClickListener {
+            onDelete(pendingPurchase)
             popupWindow.dismiss()
         }
 

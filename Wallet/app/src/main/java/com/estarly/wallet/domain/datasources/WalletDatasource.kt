@@ -38,4 +38,5 @@ interface WalletDatasource {
     suspend fun insertPendingPurchase(pendingPurchaseEntity: PendingPurchaseEntity)
     suspend fun getPendingPurchases():List<PendingPurchaseEntity>?
     suspend fun updatePendingPurchases(pendingPurchaseEntity: PendingPurchaseEntity)
+    suspend fun deletePendingPurchase(pendingPurchaseEntity: PendingPurchaseEntity)
 }

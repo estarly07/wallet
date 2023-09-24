@@ -8,6 +8,7 @@ import com.estarly.wallet.R
 import com.estarly.wallet.domain.models.DistributionOfMoneyModel
 import com.estarly.wallet.domain.models.PendingPurchaseModel
 import com.estarly.wallet.domain.usescases.CreatePendingPurchaseUseCase
+import com.estarly.wallet.domain.usescases.DeletePendingPurchaseUseCase
 import com.estarly.wallet.domain.usescases.GetAllPendingPurchasesUseCase
 import com.estarly.wallet.domain.usescases.GetAmountSalaryUseCase
 import com.estarly.wallet.domain.usescases.GetDistributionUseCase
@@ -24,7 +25,8 @@ import javax.inject.Inject
 class PendingPurchaseViewModel @Inject constructor(
     private val createPendingPurchaseUseCase : CreatePendingPurchaseUseCase,
     private val getPendingPurchaseUseCase: GetAllPendingPurchasesUseCase,
-    private val updatePendingPurchaseUseCase : UpdatePendingPurchaseUseCase
+    private val updatePendingPurchaseUseCase : UpdatePendingPurchaseUseCase,
+    private val deletePendingPurchaseUseCase: DeletePendingPurchaseUseCase
 ) : ViewModel(){
     private val _pendingPurchases = MutableLiveData<List<PendingPurchaseModel>>()
     val pendingPurchases : LiveData<List<PendingPurchaseModel>> = _pendingPurchases
@@ -56,6 +58,13 @@ class PendingPurchaseViewModel @Inject constructor(
     fun updateFinishedPurchase(pending: PendingPurchaseModel, checked: Boolean) {
         viewModelScope.launch {
             updatePendingPurchaseUseCase(pending.copy(finished = checked))
+            getPendingPurchases()
+        }
+    }
+
+    fun delete(pending: PendingPurchaseModel) {
+        viewModelScope.launch {
+            deletePendingPurchaseUseCase(pending)
             getPendingPurchases()
         }
     }

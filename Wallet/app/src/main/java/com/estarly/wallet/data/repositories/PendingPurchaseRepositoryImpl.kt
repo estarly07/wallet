@@ -12,4 +12,5 @@ class PendingPurchaseRepositoryImpl(
     override suspend fun insertPendingPurchase(pendingPurchaseModel: PendingPurchaseModel) = walletDatasource.insertPendingPurchase(pendingPurchaseModel.parseEntity())
     override suspend fun getPendingPurchases(): List<PendingPurchaseModel> = walletDatasource.getPendingPurchases()?.map { it.parseModel() } ?: listOf()
     override suspend fun updatePendingPurchases(pendingPurchaseModel: PendingPurchaseModel) = walletDatasource.updatePendingPurchases(pendingPurchaseModel.parseEntity())
+    override suspend fun deletePendingPurchase(pendingPurchaseModel: PendingPurchaseModel) = walletDatasource.deletePendingPurchase(pendingPurchaseModel.parseEntity())
 }

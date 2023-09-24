@@ -1,6 +1,7 @@
 package com.estarly.wallet.data.database.daos
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -17,4 +18,6 @@ interface PendingPurchaseDao {
     suspend fun getAllPendingPurchases() : List<PendingPurchaseEntity>?
     @Update
     suspend fun updatePendingPurchase(pendingPurchaseEntity: PendingPurchaseEntity)
+    @Delete
+    suspend fun deletePendingPurchase(pendingPurchaseEntity: PendingPurchaseEntity)
 }
