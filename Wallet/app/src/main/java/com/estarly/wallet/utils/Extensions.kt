@@ -21,3 +21,9 @@ fun Long.parseDate() : String{
     val date = Date(this)
     return dateFormat.format(date)
 }
+fun Long.getMonth() : Int{
+    val date = Date(this)
+    val format = SimpleDateFormat("MM")
+    val mesComoString = format.format(date)
+    return mesComoString.toInt()
+}

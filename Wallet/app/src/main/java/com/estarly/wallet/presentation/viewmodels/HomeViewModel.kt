@@ -14,6 +14,7 @@ import com.estarly.wallet.domain.usescases.GetAllDistributionsOfMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetAllTransactionsUseCase
 import com.estarly.wallet.domain.usescases.GetAmountSalaryUseCase
 import com.estarly.wallet.domain.usescases.GetDistributionsOfMoneyUseCase
+import com.estarly.wallet.domain.usescases.GetPercentageMoneySpentCurrentMonthUseCase
 import com.estarly.wallet.domain.usescases.GetRemainingMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetSalaryUseCase
 import com.estarly.wallet.domain.usescases.GetTheLastThreeTransactionsUseCase
@@ -39,10 +40,13 @@ class HomeViewModel @Inject constructor(
     private val getDistributionsOfMoneyUseCase: GetDistributionsOfMoneyUseCase,
     private val getAmountSalaryUseCase : GetAmountSalaryUseCase,
     private val getAllDebtsDoNotFinishedUseCase: GetAllDebtsDoNotFinishedUseCase,
-    private val payDebtUseCase: PayDebtUseCase
+    private val payDebtUseCase: PayDebtUseCase,
+    private val getPercentageMoneySpentCurrentMonthUseCase: GetPercentageMoneySpentCurrentMonthUseCase
 ) : ViewModel(){
     private val _salary = MutableLiveData<String>()
     val salary : LiveData<String> = _salary
+    private val _percentageSpent = MutableLiveData<String>()
+    val percentageSpent : LiveData<String> = _percentageSpent
     private val _showDialog = MutableLiveData<Boolean>()
     val showDialog : LiveData<Boolean> = _showDialog
     private val _showDialogPay = MutableLiveData<Boolean>()
@@ -64,6 +68,7 @@ class HomeViewModel @Inject constructor(
             getSalaryUseCase()
                 .map {
                     totalMoney = it?.amount ?: 0.0
+                    getPercentageSent()
                     availableMoney = getRemainingMoneyUseCase(totalMoney)!!
                     it?.amount?.formatSalary() ?: "0"
                 }
@@ -73,6 +78,13 @@ class HomeViewModel @Inject constructor(
                 }
         }
     }
+
+    private fun getPercentageSent() {
+        viewModelScope.launch {
+            _percentageSpent.value = "${getPercentageMoneySpentCurrentMonthUseCase().toInt()}%"
+        }
+    }
+
     private fun getDistributions(){
         viewModelScope.launch {
             getDistributionsOfMoneyUseCase()
