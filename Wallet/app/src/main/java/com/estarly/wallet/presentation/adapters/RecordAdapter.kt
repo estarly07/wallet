@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.estarly.wallet.R
 import com.estarly.wallet.databinding.ItemRecordBinding
+import com.estarly.wallet.domain.models.HistoryTransactionsModel
 
-class RecordAdapter(val list : List<String>) : RecyclerView.Adapter<RecordAdapter.Holder>() {
+class RecordAdapter(val list : List<HistoryTransactionsModel>) : RecyclerView.Adapter<RecordAdapter.Holder>() {
     class Holder(val binding: ItemRecordBinding) : ViewHolder(binding.root){
         var isExpanded: Boolean = false
     }
@@ -25,9 +26,18 @@ class RecordAdapter(val list : List<String>) : RecyclerView.Adapter<RecordAdapte
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         with(holder.binding){
+            val history = list[position]
+            txtDateHistoryItem.text = history.date
+            txtSalaryHistoryItem.text = history.salaryFormatted
             recyclerAllProgress.layoutManager   = LinearLayoutManager(root.context, LinearLayoutManager.VERTICAL,false)
             recyclerThreeProgress.layoutManager = LinearLayoutManager(root.context, LinearLayoutManager.VERTICAL,false)
-            val listProgress = listOf("","","","","")
+            val listProgress = listOf(
+                history.percentageSpent,
+                history.percentagePaid,
+                history.percentageDeposits,
+                history.percentageSpents,
+                history.percentagePaids,
+            )
             recyclerThreeProgress.adapter   = ProgressIndicatorAdapter(listProgress.subList(0,2))
             recyclerAllProgress.adapter = ProgressIndicatorAdapter(listProgress.subList(2,listProgress.size))
 

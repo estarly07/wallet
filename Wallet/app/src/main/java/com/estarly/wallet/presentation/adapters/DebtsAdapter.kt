@@ -1,5 +1,7 @@
 package com.estarly.wallet.presentation.adapters
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +27,9 @@ class DebtsAdapter(private val list: List<DebtModel>) : RecyclerView.Adapter<Deb
             else
                 txtMissingAmountDebtItem.text = debt.missingAmount.formatSalary()
             txtDateDebtItem.text = debt.dateLastPaidFormatted
-            progressDebtItem.setProgress(debt.percentagePaid,true)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                progressDebtItem.setProgress(debt.percentagePaid,true)
+            }
         }
     }
 }

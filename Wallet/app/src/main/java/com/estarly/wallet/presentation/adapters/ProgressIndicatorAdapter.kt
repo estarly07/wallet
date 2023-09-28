@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.estarly.wallet.databinding.ItemProgressIndicatorBinding
 import com.estarly.wallet.databinding.ItemRecordBinding
+import com.estarly.wallet.domain.models.PercentageModel
 
-class ProgressIndicatorAdapter(val list : List<String>) : RecyclerView.Adapter<ProgressIndicatorAdapter.Holder>() {
+class ProgressIndicatorAdapter(val list : List<PercentageModel>) : RecyclerView.Adapter<ProgressIndicatorAdapter.Holder>() {
     class Holder(val binding: ItemProgressIndicatorBinding) : ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder
@@ -18,7 +19,8 @@ class ProgressIndicatorAdapter(val list : List<String>) : RecyclerView.Adapter<P
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         with(holder.binding){
-
+            progressItem.progress = list[position].percentage
+            txtNameProgressItem.text = list[position].name
         }
     }
 }

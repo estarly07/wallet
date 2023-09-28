@@ -21,9 +21,26 @@ fun Long.parseDate() : String{
     val date = Date(this)
     return dateFormat.format(date)
 }
+fun Long.parseDateWithoutDay() : String{
+    val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale("es", "ES"))
+    val date = Date(this)
+    return dateFormat.format(date)
+}
 fun Long.getMonth() : Int{
     val date = Date(this)
     val format = SimpleDateFormat("MM")
-    val mesComoString = format.format(date)
-    return mesComoString.toInt()
+    val monthAsString = format.format(date)
+    return monthAsString.toInt()
 }
+fun Long.getYear() : Int{
+    val date = Date(this)
+    val format = SimpleDateFormat("yyyy")
+    val yearAsString = format.format(date)
+    return yearAsString.toInt()
+}
+fun List<Double>.plusElements() : Double{
+    var suma = 0.0
+    for (item in this){ suma += item }
+    return suma
+}
+fun Double.getPercentage(limit:Double) : Int = ((this/limit)*100).toInt()

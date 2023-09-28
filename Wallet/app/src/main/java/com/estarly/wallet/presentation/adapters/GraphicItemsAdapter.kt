@@ -1,6 +1,7 @@
 package com.estarly.wallet.presentation.adapters
 
 import android.content.res.ColorStateList
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +21,9 @@ class GraphicItemsAdapter(val listItems: List<ItemGraphic>) : RecyclerView.Adapt
     override fun onBindViewHolder(holder: Holder, position: Int) {
         with(holder.binding){
             txtItemGraphic.text = listItems[position].name
-            indicatorItemGraphic.backgroundTintList =ColorStateList.valueOf(root.context.getColor(listItems[position].color))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                indicatorItemGraphic.backgroundTintList =ColorStateList.valueOf(root.context.getColor(listItems[position].color))
+            }
         }
     }
 }
