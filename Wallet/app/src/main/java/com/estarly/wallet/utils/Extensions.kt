@@ -44,3 +44,4 @@ fun List<Double>.plusElements() : Double{
     return suma
 }
 fun Double.getPercentage(limit:Double) : Int = ((this/limit)*100).toInt()
+fun String.removeLastCharacter() : String = this.dropLast(1)
