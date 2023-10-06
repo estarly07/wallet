@@ -20,7 +20,7 @@ import com.estarly.wallet.data.database.entities.SalaryEntity
 import com.estarly.wallet.data.database.entities.TransactionsEntity
 
 @Database(
-    version = 2,
+    version = 3,
     entities = [
         DebtEntity::class,
         DistributionOfMoneyEntity::class,
@@ -43,6 +43,11 @@ abstract class WalletDatabase : RoomDatabase(){
         val MIGRATION_1_2 = object : Migration(1, 2){
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("CREATE TABLE IF NOT EXISTS pending_purchase_table (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, amount DOUBLE NOT NULL, name TEXT NOT NULL, finished INTEGER NOT NULL, image TEXT NOT NULL)")
+            }
+        }
+        val MIGRATION_2_3 = object : Migration(2, 3){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE distribution_table ADD COLUMN amountExpected DOUBLE  NOT NULL DEFAULT(0.0)")
             }
         }
     }

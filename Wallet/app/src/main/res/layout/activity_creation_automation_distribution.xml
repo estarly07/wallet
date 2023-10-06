@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".presentation.screens.CreationAutomationDistributionActivity">
+    <ImageButton
+        android:id="@+id/btnBackDistribution"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@color/backgroundScreens"
+        android:src="@drawable/ic_back" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="30dp"
+        android:text="Crear automatización"
+        android:textColor="@color/grayDark"
+        android:textSize="@dimen/title"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="¡Bienvenido al rincón donde puedes configurar como se distribuye tu dinero! Crea tus reglas y observa cómo se mueve tu dinero de manera automágica según tus ajustes"
+        android:textColor="@color/grayLight"
+        android:textSize="@dimen/normal" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
+        android:textStyle="bold"
+        android:text="Aviso: Para poner esto en acción, ten tu dinero listo y dale un toque al botón en la página de inicio, justo al lado del menú. ¡La magia está a un clic de distancia!"
+        android:textColor="@color/grayLight"
+        android:textSize="12sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerDistributions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        tools:listitem="@layout/item_distribution_automation" />
+</LinearLayout>

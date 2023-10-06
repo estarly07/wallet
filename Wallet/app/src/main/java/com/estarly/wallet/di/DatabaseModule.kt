@@ -26,6 +26,7 @@ class DatabaseModule {
      = Room
         .databaseBuilder(context,WalletDatabase ::class.java,"wallet_database")
         .addMigrations(WalletDatabase.MIGRATION_1_2)
+        .addMigrations(WalletDatabase.MIGRATION_2_3)
         .build()
 
     @Provides

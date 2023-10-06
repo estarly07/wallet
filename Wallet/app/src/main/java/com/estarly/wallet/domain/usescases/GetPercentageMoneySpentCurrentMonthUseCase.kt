@@ -5,10 +5,11 @@ import com.estarly.wallet.domain.models.TypeTransactions
 import javax.inject.Inject
 
 class GetPercentageMoneySpentCurrentMonthUseCase @Inject constructor(
-    private val  getAllTransactionsCurrentMonthUseCase: GetAllTransactionsCurrentMonthUseCase
+    private val  getAllTransactionsCurrentMonthUseCase: GetAllTransactionsCurrentMonthUseCase,
+    private val getAllTransactionsUseCase: GetAllTransactionsUseCase
 ) {
     suspend operator fun invoke(): Double {
-        val transactions = getAllTransactionsCurrentMonthUseCase()
+        val transactions = getAllTransactionsUseCase()
         var amountSpent = 0.0
         var amountDeposit = 0.0
         for ( transaction in transactions){

@@ -65,7 +65,8 @@ class CreationDistributionViewModel @Inject constructor(
                 id          = 0,
                 amountSaved = if(amount.isNotEmpty()) amount.toDouble() else 0.0,
                 name        = name.trim(),
-                image       = _changeBackgroundDistribution.value ?: R.drawable.one
+                image       = _changeBackgroundDistribution.value ?: R.drawable.one,
+                amountExpected = 0.0
             ))
             _closeActivity.value = true
         }
@@ -77,7 +78,8 @@ class CreationDistributionViewModel @Inject constructor(
                 id          = _distributionUpdate.value!!.id,
                 amountSaved = if(amount.isNotEmpty()) amount.toDouble() else 0.0,
                 name        = name.trim(),
-                image       = _changeBackgroundDistribution.value ?: R.drawable.one
+                image       = _changeBackgroundDistribution.value ?: R.drawable.one,
+                amountExpected = _distributionUpdate.value!!.amountExpected,
             ))
             _closeActivity.value = true
         }

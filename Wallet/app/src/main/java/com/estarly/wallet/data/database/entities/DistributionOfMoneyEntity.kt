@@ -12,5 +12,6 @@ data class DistributionOfMoneyEntity(
     @ColumnInfo(name = "id") val id : Int,
     @ColumnInfo(name = "amountSaved") val amountSaved : Double,
     @ColumnInfo(name = "name") val name : String,
-    @ColumnInfo(name = "image") val image : String
+    @ColumnInfo(name = "image") val image : String,
+    @ColumnInfo(name = "amountExpected") val amountExpected : Double
 )

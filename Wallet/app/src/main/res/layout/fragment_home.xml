@@ -1,85 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/backgroundScreens"
     tools:context=".presentation.screens.MainActivity">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:gravity="center_vertical"
-            android:layout_marginHorizontal="20dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="25dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Bienvenido"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/titleScreen"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/btnDrawerMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/backgroundScreens"
+                    android:src="@drawable/ic_menu" />
+            </LinearLayout>
+
+            <include
+                android:id="@+id/salaryCard"
+                layout="@layout/salary_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="25dp" />
+
+            <include
+                android:id="@+id/graphic"
+                layout="@layout/graphic_home"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="25dp" />
+
+            <include
+                android:id="@+id/buttons_actions_transactions"
+                layout="@layout/buttons_actions_transactions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/txtAllTransactions"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Bienvenido"
-                android:textColor="@color/black"
-                android:textSize="@dimen/titleScreen"
-                android:textStyle="bold" />
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="25dp"
+                android:text="Transacciones hoy"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/subtitle"
+                android:textStyle="bold"
+                app:drawableRightCompat="@drawable/arrow_right" />
 
-            <ImageButton
-                android:id="@+id/btnDrawerMenu"
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/transactions"
+                layout="@layout/transactions_today_card"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/backgroundScreens"
-                android:src="@drawable/ic_menu"/>
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp" />
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-        <include
-            android:id="@+id/salaryCard"
-            layout="@layout/salary_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="25dp" />
-
-        <include
-            android:id="@+id/graphic"
-            layout="@layout/graphic_home"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="25dp" />
-
-        <include
-            android:id="@+id/buttons_actions_transactions"
-            layout="@layout/buttons_actions_transactions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
-
-        <TextView
-            android:id="@+id/txtAllTransactions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="25dp"
-            android:text="Transacciones hoy"
-            android:textColor="@color/grayDark"
-            android:textSize="@dimen/subtitle"
-            android:textStyle="bold"
-            app:drawableRightCompat="@drawable/arrow_right" />
-
-        <include
-            android:id="@+id/transactions"
-            layout="@layout/transactions_today_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="15dp" />
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+    <include
+        android:id="@+id/floatingsTransactions"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        layout="@layout/floatings_buttons_transactions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

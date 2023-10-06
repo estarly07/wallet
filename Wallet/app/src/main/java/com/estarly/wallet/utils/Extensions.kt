@@ -45,3 +45,6 @@ fun List<Double>.plusElements() : Double{
 }
 fun Double.getPercentage(limit:Double) : Int = ((this/limit)*100).toInt()
 fun String.removeLastCharacter() : String = this.dropLast(1)
+fun Double.doubleToStringWithoutDecimalIfZero(): String
+    = if (this % 1.0 == 0.0) { this.toLong().toString() }
+      else { this.toString() }
