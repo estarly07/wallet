@@ -1,6 +1,9 @@
 package com.estarly.wallet.presentation.viewmodels
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +12,7 @@ import com.estarly.wallet.domain.models.DebtModel
 import com.estarly.wallet.domain.models.DistributionOfMoneyModel
 import com.estarly.wallet.domain.models.TransactionModel
 import com.estarly.wallet.domain.models.TypeTransactions
+import com.estarly.wallet.domain.usescases.DistributionAutomaticUseCase
 import com.estarly.wallet.domain.usescases.GetAllDebtsDoNotFinishedUseCase
 import com.estarly.wallet.domain.usescases.GetAllDistributionsOfMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetAllTransactionsUseCase
@@ -21,6 +25,7 @@ import com.estarly.wallet.domain.usescases.GetTheLastThreeTransactionsUseCase
 import com.estarly.wallet.domain.usescases.PayDebtUseCase
 import com.estarly.wallet.domain.usescases.TakeMoneyOutUseCase
 import com.estarly.wallet.domain.usescases.UpdateSalaryUseCase
+import com.estarly.wallet.presentation.dialogs.showYesOrNoAlertDialog
 import com.estarly.wallet.utils.formatSalary
 import com.github.mikephil.charting.data.PieEntry
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +46,8 @@ class HomeViewModel @Inject constructor(
     private val getAmountSalaryUseCase : GetAmountSalaryUseCase,
     private val getAllDebtsDoNotFinishedUseCase: GetAllDebtsDoNotFinishedUseCase,
     private val payDebtUseCase: PayDebtUseCase,
-    private val getPercentageMoneySpentCurrentMonthUseCase: GetPercentageMoneySpentCurrentMonthUseCase
+    private val getPercentageMoneySpentCurrentMonthUseCase: GetPercentageMoneySpentCurrentMonthUseCase,
+    private val distributionAutomaticUseCase: DistributionAutomaticUseCase
 ) : ViewModel(){
     private val _salary = MutableLiveData<String>()
     val salary : LiveData<String> = _salary
@@ -116,6 +122,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    @SuppressLint("LongLogTag")
     private fun getPercentage(transactions: List<TransactionModel>, typeTransactions: TypeTransactions): Float {
         var amountCurrent = 0.0
         var amountTotal = 0.0
@@ -194,5 +201,16 @@ class HomeViewModel @Inject constructor(
             if (amount.isEmpty()) return@launch
             payDebtUseCase(amount, distribution, debt)
         }
+    }
+
+    fun depositAutomatic(context:Context) {
+        showYesOrNoAlertDialog(
+            context,
+            "Alerta",
+            "¡Prepárate para dispersar la suma $${availableMoney.formatSalary()} en todas las configuraciones de distribución que has creado!",
+            onPositive = {
+                viewModelScope.launch { distributionAutomaticUseCase() }
+            }
+        )
     }
 }
