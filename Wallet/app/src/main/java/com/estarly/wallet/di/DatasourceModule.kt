@@ -6,6 +6,7 @@ import com.estarly.wallet.data.database.daos.DistributionOfMoneyDao
 import com.estarly.wallet.data.database.daos.GoalDao
 import com.estarly.wallet.data.database.daos.PendingPurchaseDao
 import com.estarly.wallet.data.database.daos.SalaryDao
+import com.estarly.wallet.data.database.daos.SavingMoneyDao
 import com.estarly.wallet.data.database.daos.TransactionDao
 import com.estarly.wallet.data.datasources.WalletDatasourceImpl
 import com.estarly.wallet.domain.datasources.WalletDatasource
@@ -27,7 +28,8 @@ class DatasourceModule {
         debtDao: DebtDao,
         cdtDao: CDTDao,
         goalDao: GoalDao,
-        pendingPurchaseDao: PendingPurchaseDao
+        pendingPurchaseDao: PendingPurchaseDao,
+        savingMoneyDao: SavingMoneyDao
     ) : WalletDatasource
-            = WalletDatasourceImpl(salaryDao,distributionOfMoneyDao,transactionDao,debtDao,cdtDao,goalDao,pendingPurchaseDao)
+            = WalletDatasourceImpl(salaryDao,distributionOfMoneyDao,transactionDao,debtDao,cdtDao,goalDao,pendingPurchaseDao,savingMoneyDao)
 }

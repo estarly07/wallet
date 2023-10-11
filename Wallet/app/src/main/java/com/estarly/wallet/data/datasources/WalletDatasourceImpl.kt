@@ -6,6 +6,7 @@ import com.estarly.wallet.data.database.daos.DistributionOfMoneyDao
 import com.estarly.wallet.data.database.daos.GoalDao
 import com.estarly.wallet.data.database.daos.PendingPurchaseDao
 import com.estarly.wallet.data.database.daos.SalaryDao
+import com.estarly.wallet.data.database.daos.SavingMoneyDao
 import com.estarly.wallet.data.database.daos.TransactionDao
 import com.estarly.wallet.data.database.entities.CDTEntity
 import com.estarly.wallet.data.database.entities.DebtEntity
@@ -13,6 +14,7 @@ import com.estarly.wallet.data.database.entities.DistributionOfMoneyEntity
 import com.estarly.wallet.data.database.entities.GoalEntity
 import com.estarly.wallet.data.database.entities.PendingPurchaseEntity
 import com.estarly.wallet.data.database.entities.SalaryEntity
+import com.estarly.wallet.data.database.entities.SavinMoneyEntity
 import com.estarly.wallet.data.database.entities.TransactionsEntity
 import com.estarly.wallet.domain.datasources.WalletDatasource
 import kotlinx.coroutines.flow.Flow
@@ -25,6 +27,7 @@ class WalletDatasourceImpl(
     private val cdtDao: CDTDao,
     private val goalDao: GoalDao,
     private val pendingPurchaseDao: PendingPurchaseDao,
+    private val savingMoneyDao: SavingMoneyDao,
 ) : WalletDatasource{
     override val salary: Flow<SalaryEntity?> = salaryDao.getSalary()
     override val distributions : Flow<List<DistributionOfMoneyEntity>?> = distributionOfMoneyDao.getDistributions()
@@ -56,4 +59,7 @@ class WalletDatasourceImpl(
     override suspend fun getPendingPurchases(): List<PendingPurchaseEntity>? = pendingPurchaseDao.getAllPendingPurchases()
     override suspend fun updatePendingPurchases(pendingPurchaseEntity: PendingPurchaseEntity) = pendingPurchaseDao.updatePendingPurchase(pendingPurchaseEntity)
     override suspend fun deletePendingPurchase(pendingPurchaseEntity: PendingPurchaseEntity) = pendingPurchaseDao.deletePendingPurchase(pendingPurchaseEntity)
+    override suspend fun updateSavingMoney(savinMoneyEntity: SavinMoneyEntity) = savingMoneyDao.updateSavingMoney(savinMoneyEntity)
+    override suspend fun saveSavingMoney(savinMoneyEntity: SavinMoneyEntity) = savingMoneyDao.saveSavingMoney(savinMoneyEntity)
+    override suspend fun getSavingMoney(): SavinMoneyEntity? = savingMoneyDao.getSavingMoney()
 }

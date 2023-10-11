@@ -19,4 +19,9 @@
         android:title="Crear automatización"
         android:icon="@drawable/ic_goal"
         android:iconTint="@color/grayDark"/>
+    <item
+        android:id="@+id/nav_saving_money"
+        android:title="Ahorro"
+        android:icon="@drawable/ic_goal"
+        android:iconTint="@color/grayDark"/>
 </menu>

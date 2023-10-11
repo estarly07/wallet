@@ -11,5 +11,6 @@
     <color name="salary">#49c7ef</color>
     <color name="percentageSpent">#9c5ff8</color>
     <color name="percentagePays">#FF5722</color>
+    <color name="percentageSaving">#8BC34A</color>
 
 </resources>

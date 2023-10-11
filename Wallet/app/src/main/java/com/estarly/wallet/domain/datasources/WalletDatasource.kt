@@ -6,6 +6,7 @@ import com.estarly.wallet.data.database.entities.DistributionOfMoneyEntity
 import com.estarly.wallet.data.database.entities.GoalEntity
 import com.estarly.wallet.data.database.entities.PendingPurchaseEntity
 import com.estarly.wallet.data.database.entities.SalaryEntity
+import com.estarly.wallet.data.database.entities.SavinMoneyEntity
 import com.estarly.wallet.data.database.entities.TransactionsEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -39,4 +40,7 @@ interface WalletDatasource {
     suspend fun getPendingPurchases():List<PendingPurchaseEntity>?
     suspend fun updatePendingPurchases(pendingPurchaseEntity: PendingPurchaseEntity)
     suspend fun deletePendingPurchase(pendingPurchaseEntity: PendingPurchaseEntity)
+    suspend fun updateSavingMoney(savinMoneyEntity: SavinMoneyEntity)
+    suspend fun saveSavingMoney(savinMoneyEntity: SavinMoneyEntity)
+    suspend fun getSavingMoney() : SavinMoneyEntity?
 }

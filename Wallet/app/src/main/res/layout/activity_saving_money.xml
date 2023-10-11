@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/backgroundScreens"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".presentation.screens.SavingMoneyActivity">
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/saving_money" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tú ahorro"
+        android:textColor="@color/black"
+        android:textSize="@dimen/titleScreen"
+        android:layout_margin="15dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtAmountSaving"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_outline"
+        android:backgroundTint="@color/grayLight2"
+        android:padding="10dp"
+        android:drawableTint="@color/grayDark"
+        android:drawableStart="@drawable/ic_money"
+        android:layout_margin="20dp"
+        android:text="150.000"
+        android:textColor="@color/grayDark"
+        android:textSize="@dimen/titleScreen" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¡Bienvenido a tu rincón de ahorros! Aquí, podrás echar un vistazo a la suma de dinero que has acumulado con esfuerzo y determinación."
+        android:textAlignment="center"
+        android:textColor="@color/grayLight"
+        android:textSize="@dimen/subtitle"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="50dp"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/percentageSpent"
+        android:text="Volver"
+        android:textSize="@dimen/title" />
+</LinearLayout>

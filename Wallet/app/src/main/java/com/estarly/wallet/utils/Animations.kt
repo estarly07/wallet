@@ -4,7 +4,11 @@ import android.animation.Animator
 import android.animation.Animator.AnimatorListener
 import android.animation.ObjectAnimator
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
+import android.view.animation.ScaleAnimation
+import android.view.animation.TranslateAnimation
 import com.estarly.wallet.R
 
 fun View.animationTranslateUp(translate: Boolean = false, hasAnimationDone :()->Unit ={}){
@@ -37,4 +41,24 @@ fun View.animRotate(rotate : Boolean = false) {
     animator.duration = 600
     animator.startDelay = 100
     animator.start()
+}
+/**Expanded animation for background floating buttons*/
+fun View.animExpand() {
+    animAppear()
+    val centerX = width
+    val centerY = height
+
+    val scaleAnimation = ScaleAnimation(0f, 1f, 0f, 1f, centerX.toFloat(), centerY.toFloat())
+    scaleAnimation.duration = 400 // Duración de la animación en milisegundos
+
+    val translateAnimation = TranslateAnimation(
+        centerX.toFloat(), 0f,
+        centerY.toFloat(), 0f
+    )
+    translateAnimation.duration = 400 // Duración de la animación en milisegundos
+    val animationSet = AnimationSet(true)
+    animationSet.addAnimation(scaleAnimation)
+    animationSet.addAnimation(translateAnimation)
+
+    startAnimation(animationSet)
 }

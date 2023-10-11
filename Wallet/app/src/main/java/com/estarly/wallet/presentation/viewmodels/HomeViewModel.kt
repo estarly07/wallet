@@ -3,7 +3,6 @@ package com.estarly.wallet.presentation.viewmodels
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +22,7 @@ import com.estarly.wallet.domain.usescases.GetRemainingMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetSalaryUseCase
 import com.estarly.wallet.domain.usescases.GetTheLastThreeTransactionsUseCase
 import com.estarly.wallet.domain.usescases.PayDebtUseCase
+import com.estarly.wallet.domain.usescases.SavingMoneyUseCase
 import com.estarly.wallet.domain.usescases.TakeMoneyOutUseCase
 import com.estarly.wallet.domain.usescases.UpdateSalaryUseCase
 import com.estarly.wallet.presentation.dialogs.showYesOrNoAlertDialog
@@ -47,7 +47,8 @@ class HomeViewModel @Inject constructor(
     private val getAllDebtsDoNotFinishedUseCase: GetAllDebtsDoNotFinishedUseCase,
     private val payDebtUseCase: PayDebtUseCase,
     private val getPercentageMoneySpentCurrentMonthUseCase: GetPercentageMoneySpentCurrentMonthUseCase,
-    private val distributionAutomaticUseCase: DistributionAutomaticUseCase
+    private val distributionAutomaticUseCase: DistributionAutomaticUseCase,
+    private val savingMoneyUseCase: SavingMoneyUseCase
 ) : ViewModel(){
     private val _salary = MutableLiveData<String>()
     val salary : LiveData<String> = _salary
@@ -55,6 +56,8 @@ class HomeViewModel @Inject constructor(
     val percentageSpent : LiveData<String> = _percentageSpent
     private val _showDialog = MutableLiveData<Boolean>()
     val showDialog : LiveData<Boolean> = _showDialog
+    private val _showDialogSavingMoney = MutableLiveData<Boolean>()
+    val showDialogSavingMoney : LiveData<Boolean> = _showDialogSavingMoney
     private val _showDialogPay = MutableLiveData<Boolean>()
     val showDialogPay : LiveData<Boolean> = _showDialogPay
     private val _lastThreeTransactions = MutableLiveData<List<TransactionModel>>()
@@ -110,6 +113,8 @@ class HomeViewModel @Inject constructor(
                 PieEntry(getPercentage(transactions, TypeTransactions.TAKE_MONEY_OUT), ""),
                 PieEntry(1f, ""),//margin
                 PieEntry(getPercentage(transactions, TypeTransactions.PAY_DEBT), ""),
+                PieEntry(1f, ""),//margin
+                PieEntry(getPercentage(transactions, TypeTransactions.SAVING_MONEY), ""),
             )
             _entriesEntries.value = entries
         }
@@ -148,6 +153,15 @@ class HomeViewModel @Inject constructor(
                     }
                 }
                 Log.i("getPercentage PAY_DEBT","amountCurrent $amountCurrent ${(amountCurrent*100/amountTotal)}")
+                return (amountCurrent*100/amountTotal).toFloat()
+            }
+            TypeTransactions.SAVING_MONEY->{
+                transactions.forEach {
+                    if(it.typeTransaction == TypeTransactions.SAVING_MONEY){
+                        amountCurrent += it.amount
+                    }
+                }
+                Log.i("getPercentage SAVING_MONEY","amountCurrent $amountCurrent ${(amountCurrent*100/amountTotal)}")
                 return (amountCurrent*100/amountTotal).toFloat()
             }
             else -> {
@@ -212,5 +226,18 @@ class HomeViewModel @Inject constructor(
                 viewModelScope.launch { distributionAutomaticUseCase() }
             }
         )
+    }
+
+    fun showDialogSavingMoney() {
+        _showDialogSavingMoney.value = true
+    }
+    fun dismissDialogSavingMoney() {
+        _showDialogSavingMoney.value = false
+    }
+
+    fun savingMoney(savingMoney: Double) {
+        viewModelScope.launch {
+            savingMoneyUseCase(savingMoney)
+        }
     }
 }

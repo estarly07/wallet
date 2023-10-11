@@ -9,6 +9,7 @@ import com.estarly.wallet.data.database.daos.DistributionOfMoneyDao
 import com.estarly.wallet.data.database.daos.GoalDao
 import com.estarly.wallet.data.database.daos.PendingPurchaseDao
 import com.estarly.wallet.data.database.daos.SalaryDao
+import com.estarly.wallet.data.database.daos.SavingMoneyDao
 import com.estarly.wallet.data.database.daos.TransactionDao
 import dagger.Module
 import dagger.Provides
@@ -25,8 +26,8 @@ class DatabaseModule {
     fun provideDatabase(@ApplicationContext context: Context ) : WalletDatabase
      = Room
         .databaseBuilder(context,WalletDatabase ::class.java,"wallet_database")
-        .addMigrations(WalletDatabase.MIGRATION_1_2)
-        .addMigrations(WalletDatabase.MIGRATION_2_3)
+        .addMigrations(WalletDatabase.MIGRATION_3_4)
+        .addMigrations(WalletDatabase.MIGRATION_4_5)
         .build()
 
     @Provides
@@ -50,4 +51,7 @@ class DatabaseModule {
     @Provides
     @Singleton
     fun providePendingPurchaseDao(walletDatabase: WalletDatabase) : PendingPurchaseDao = walletDatabase.getPendingPurchaseDao()
+    @Provides
+    @Singleton
+    fun provideSavingMoneyDao(walletDatabase: WalletDatabase) : SavingMoneyDao = walletDatabase.getSavingMoneyDao()
 }

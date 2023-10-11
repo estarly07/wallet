@@ -11,16 +11,18 @@ import com.estarly.wallet.data.database.daos.TransactionDao
 import com.estarly.wallet.data.database.daos.CDTDao
 import com.estarly.wallet.data.database.daos.GoalDao
 import com.estarly.wallet.data.database.daos.PendingPurchaseDao
+import com.estarly.wallet.data.database.daos.SavingMoneyDao
 import com.estarly.wallet.data.database.entities.CDTEntity
 import com.estarly.wallet.data.database.entities.DebtEntity
 import com.estarly.wallet.data.database.entities.DistributionOfMoneyEntity
 import com.estarly.wallet.data.database.entities.GoalEntity
 import com.estarly.wallet.data.database.entities.PendingPurchaseEntity
 import com.estarly.wallet.data.database.entities.SalaryEntity
+import com.estarly.wallet.data.database.entities.SavinMoneyEntity
 import com.estarly.wallet.data.database.entities.TransactionsEntity
 
 @Database(
-    version = 3,
+    version = 5,
     entities = [
         DebtEntity::class,
         DistributionOfMoneyEntity::class,
@@ -28,7 +30,8 @@ import com.estarly.wallet.data.database.entities.TransactionsEntity
         SalaryEntity::class,
         TransactionsEntity::class,
         CDTEntity::class,
-        PendingPurchaseEntity::class
+        PendingPurchaseEntity::class,
+        SavinMoneyEntity::class,
     ],
 )
 abstract class WalletDatabase : RoomDatabase(){
@@ -39,16 +42,19 @@ abstract class WalletDatabase : RoomDatabase(){
     abstract fun getCDTDao() : CDTDao
     abstract fun getGoalDao() : GoalDao
     abstract fun getPendingPurchaseDao() : PendingPurchaseDao
+    abstract fun getSavingMoneyDao() : SavingMoneyDao
     companion object{
-        val MIGRATION_1_2 = object : Migration(1, 2){
+        val MIGRATION_3_4 = object : Migration(3, 4){
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("CREATE TABLE IF NOT EXISTS pending_purchase_table (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, amount DOUBLE NOT NULL, name TEXT NOT NULL, finished INTEGER NOT NULL, image TEXT NOT NULL)")
+                database.execSQL("CREATE TABLE IF NOT EXISTS saving_money_table (id INTEGER PRIMARY KEY NOT NULL, amount_saving DOUBLE NOT NULL, last_amount_deposited LONG NOT NULL)")
             }
         }
-        val MIGRATION_2_3 = object : Migration(2, 3){
+        val MIGRATION_4_5 = object : Migration(4, 5){
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE distribution_table ADD COLUMN amountExpected DOUBLE  NOT NULL DEFAULT(0.0)")
+                database.execSQL("DROP TABLE saving_money_table")
+                database.execSQL("CREATE TABLE IF NOT EXISTS saving_money_table (id INTEGER PRIMARY KEY NOT NULL, amount_saving DOUBLE NOT NULL)")
             }
         }
+
     }
 }

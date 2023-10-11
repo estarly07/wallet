@@ -7,6 +7,7 @@ import com.estarly.wallet.data.repositories.DistributionOfMoneyRepositoryImpl
 import com.estarly.wallet.data.repositories.GoalRepositoryImpl
 import com.estarly.wallet.data.repositories.PendingPurchaseRepositoryImpl
 import com.estarly.wallet.data.repositories.SalaryRepositoryImpl
+import com.estarly.wallet.data.repositories.SavingMoneyRepositoryImpl
 import com.estarly.wallet.data.repositories.TransactionRepositoryImpl
 import com.estarly.wallet.data.repositories.UserRepositoryImpl
 import com.estarly.wallet.domain.datasources.WalletDatasource
@@ -16,6 +17,7 @@ import com.estarly.wallet.domain.repositories.DistributionOfMoneyRepository
 import com.estarly.wallet.domain.repositories.GoalRepository
 import com.estarly.wallet.domain.repositories.PendingPurchaseRepository
 import com.estarly.wallet.domain.repositories.SalaryRepository
+import com.estarly.wallet.domain.repositories.SavingMoneyRepository
 import com.estarly.wallet.domain.repositories.TransactionRepository
 import com.estarly.wallet.domain.repositories.UserRepository
 import dagger.Module
@@ -59,4 +61,8 @@ class RepositoriesModule {
     @Singleton
     fun provideUserRepository(walletPreferences: WalletPreferences) : UserRepository
             = UserRepositoryImpl(walletPreferences)
+    @Provides
+    @Singleton
+    fun provideSavingMoneyRepository(walletDatasource: WalletDatasource) : SavingMoneyRepository
+        = SavingMoneyRepositoryImpl(walletDatasource)
 }
