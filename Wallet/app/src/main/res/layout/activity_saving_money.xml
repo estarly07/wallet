@@ -56,4 +56,14 @@
         android:backgroundTint="@color/percentageSpent"
         android:text="Volver"
         android:textSize="@dimen/title" />
+    <Button
+        android:id="@+id/btnTakeOffMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="30dp"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@color/backgroundScreens"
+        android:textColor="@color/grayLight"
+        android:text="Retirar"
+        android:textSize="@dimen/subtitle" />
 </LinearLayout>

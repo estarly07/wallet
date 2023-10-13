@@ -38,12 +38,13 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     <ImageView
+        android:id="@+id/imgSavingMoney"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:src="@drawable/saving_money_two"/>
     <TextView
-        android:id="@+id/txtTitleDialogGoal"
+        android:id="@+id/txtTitleSavingMoney"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -54,6 +55,7 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/txtContentSavingMoney"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
