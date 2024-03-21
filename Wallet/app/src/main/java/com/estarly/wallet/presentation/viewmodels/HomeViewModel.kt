@@ -20,6 +20,7 @@ import com.estarly.wallet.domain.usescases.GetDistributionsOfMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetPercentageMoneySpentCurrentMonthUseCase
 import com.estarly.wallet.domain.usescases.GetRemainingMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetSalaryUseCase
+import com.estarly.wallet.domain.usescases.GetSavingMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetTheLastThreeTransactionsUseCase
 import com.estarly.wallet.domain.usescases.PayDebtUseCase
 import com.estarly.wallet.domain.usescases.SavingMoneyUseCase
@@ -48,7 +49,8 @@ class HomeViewModel @Inject constructor(
     private val payDebtUseCase: PayDebtUseCase,
     private val getPercentageMoneySpentCurrentMonthUseCase: GetPercentageMoneySpentCurrentMonthUseCase,
     private val distributionAutomaticUseCase: DistributionAutomaticUseCase,
-    private val savingMoneyUseCase: SavingMoneyUseCase
+    private val savingMoneyUseCase: SavingMoneyUseCase,
+    private val getSavingMoneyUseCase : GetSavingMoneyUseCase
 ) : ViewModel(){
     private val _salary = MutableLiveData<String>()
     val salary : LiveData<String> = _salary
@@ -106,15 +108,19 @@ class HomeViewModel @Inject constructor(
     private fun getValuesGraphic(){
         viewModelScope.launch {
             val transactions = getAllTransactionsUseCase()
+            val deposit   = getPercentage(transactions, TypeTransactions.DEPOSIT)
+            val takeMoney = getPercentage(transactions, TypeTransactions.TAKE_MONEY_OUT)
+            val payDebt   = getPercentage(transactions, TypeTransactions.PAY_DEBT)
+            val saving    = getPercentageSavingMoney(transactions)
             val entries = listOf(
                 PieEntry(1f, ""),//margin
-                PieEntry(getPercentage(transactions, TypeTransactions.DEPOSIT), ""),
+                PieEntry(deposit.first  , if(deposit.second == "0")   "" else deposit.second),
                 PieEntry(1f, ""),//margin
-                PieEntry(getPercentage(transactions, TypeTransactions.TAKE_MONEY_OUT), ""),
+                PieEntry(takeMoney.first, if(takeMoney.second == "0") "" else takeMoney.second),
                 PieEntry(1f, ""),//margin
-                PieEntry(getPercentage(transactions, TypeTransactions.PAY_DEBT), ""),
+                PieEntry(payDebt.first  , if(payDebt.second == "0")   "" else payDebt.second),
                 PieEntry(1f, ""),//margin
-                PieEntry(getPercentage(transactions, TypeTransactions.SAVING_MONEY), ""),
+                PieEntry(saving.first   , if(saving.second == "0")    "" else  saving.second),
             )
             _entriesEntries.value = entries
         }
@@ -128,7 +134,17 @@ class HomeViewModel @Inject constructor(
     }
 
     @SuppressLint("LongLogTag")
-    private fun getPercentage(transactions: List<TransactionModel>, typeTransactions: TypeTransactions): Float {
+    private suspend fun getPercentageSavingMoney(transactions: List<TransactionModel>): Pair<Float, String>{
+        val amountCurrent = getSavingMoneyUseCase()?.amountSaving?:return Pair(0f,"")
+        var amountTotal = 0.0
+        transactions.forEach {
+            if(it.typeTransaction == TypeTransactions.DEPOSIT){
+                amountTotal += it.amount
+            }
+        }
+        return Pair((amountCurrent*100/amountTotal).toFloat(),amountCurrent.formatSalary() )
+    }
+    private fun getPercentage(transactions: List<TransactionModel>, typeTransactions: TypeTransactions): Pair<Float, String> {
         var amountCurrent = 0.0
         var amountTotal = 0.0
         transactions.forEach {
@@ -144,7 +160,7 @@ class HomeViewModel @Inject constructor(
                     }
                 }
                 Log.i("getPercentage TAKE_MONEY_OUT","${(amountCurrent*100/amountTotal)}")
-                return (amountCurrent*100/amountTotal).toFloat()
+                return Pair((amountCurrent*100/amountTotal).toFloat(),amountCurrent.formatSalary())
             }
             TypeTransactions.PAY_DEBT->{
                 transactions.forEach {
@@ -153,7 +169,7 @@ class HomeViewModel @Inject constructor(
                     }
                 }
                 Log.i("getPercentage PAY_DEBT","amountCurrent $amountCurrent ${(amountCurrent*100/amountTotal)}")
-                return (amountCurrent*100/amountTotal).toFloat()
+                return Pair((amountCurrent*100/amountTotal).toFloat(),amountCurrent.formatSalary())
             }
             TypeTransactions.SAVING_MONEY->{
                 transactions.forEach {
@@ -162,11 +178,11 @@ class HomeViewModel @Inject constructor(
                     }
                 }
                 Log.i("getPercentage SAVING_MONEY","amountCurrent $amountCurrent ${(amountCurrent*100/amountTotal)}")
-                return (amountCurrent*100/amountTotal).toFloat()
+                return Pair((amountCurrent*100/amountTotal).toFloat(),amountCurrent.formatSalary())
             }
             else -> {
                 Log.i("getPercentage","${(totalMoney*100/amountTotal)}")
-                return (totalMoney * 100/amountTotal).toFloat()
+                return Pair((totalMoney * 100/amountTotal).toFloat(),totalMoney.formatSalary())
             }
         }
     }
