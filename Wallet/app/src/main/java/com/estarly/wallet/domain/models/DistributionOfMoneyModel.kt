@@ -7,5 +7,5 @@ data class DistributionOfMoneyModel(
     val name        : String,
     val image       : Int,
     val amountExpected : Double,
-    val amountExpectedFormatted : String = ""
+    var amountExpectedFormatted : String = ""
 )
