@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.estarly.wallet.domain.models.DistributionOfMoneyModel
+import com.estarly.wallet.domain.usescases.DeleteDistributionOfMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetAmountSalaryUseCase
 import com.estarly.wallet.domain.usescases.GetDistributionsOfMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetRemainingMoneyUseCase
@@ -19,7 +20,8 @@ class DistributionOfMoneyViewModel @Inject constructor(
     private val getDistributionsOfMoneyUseCase: GetDistributionsOfMoneyUseCase,
     private val getRemainingMoneyUseCase: GetRemainingMoneyUseCase,
     private val getSalaryUseCase: GetSalaryUseCase,
-    private val getAmountSalaryUseCase: GetAmountSalaryUseCase
+    private val getAmountSalaryUseCase: GetAmountSalaryUseCase,
+    private val deleteDistributionOfMoneyUseCase: DeleteDistributionOfMoneyUseCase,
 ) : ViewModel(){
     private val _listDistributionOfMoney = MutableLiveData<List<DistributionOfMoneyModel>>()
     val listDistributionOfMoney : LiveData<List<DistributionOfMoneyModel>> = _listDistributionOfMoney
@@ -35,6 +37,11 @@ class DistributionOfMoneyViewModel @Inject constructor(
                     _listDistributionOfMoney.value = it
                     _remainingMoney.value = getRemainingMoneyUseCase(getAmountSalaryUseCase())!!
                 }
+        }
+    }
+    fun deleteDistribution(idDistribution : Int, position : Int){
+        viewModelScope.launch {
+            deleteDistributionOfMoneyUseCase(idDistribution)
         }
     }
     fun getRemainingMoney(){

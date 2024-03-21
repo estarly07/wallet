@@ -10,4 +10,5 @@ interface DistributionOfMoneyRepository {
     suspend fun getAllDistributions() : List<DistributionOfMoneyModel>?
     suspend fun updateDistribution(distributionOfMoneyModel: DistributionOfMoneyModel)
     suspend fun getDistribution(id: Int) : DistributionOfMoneyModel
+    suspend fun deleteDistribution(distributionOfMoneyModel: DistributionOfMoneyModel)
 }

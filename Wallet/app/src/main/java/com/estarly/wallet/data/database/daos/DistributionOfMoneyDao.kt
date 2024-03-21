@@ -1,6 +1,7 @@
 package com.estarly.wallet.data.database.daos
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -15,6 +16,8 @@ interface DistributionOfMoneyDao {
     fun getDistributions() : Flow<List<DistributionOfMoneyEntity>?>
     @Query("SELECT * FROM distribution_table")
     suspend fun getAllDistributions() : List<DistributionOfMoneyEntity>?
+    @Delete
+    suspend fun deleteDistributions(distributionOfMoneyEntity : DistributionOfMoneyEntity)
     @Update
     suspend fun updateDistribution(distributionOfMoneyEntity: DistributionOfMoneyEntity)
     @Query("SELECT * FROM distribution_table WHERE id = :id")

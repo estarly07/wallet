@@ -41,6 +41,7 @@ class WalletDatasourceImpl(
     override suspend fun getSalary(): SalaryEntity? = salaryDao.getSalaryNoFlow()
     override suspend fun saveDistribution(distributionOfMoneyEntity: DistributionOfMoneyEntity) = distributionOfMoneyDao.saveDistribution(distributionOfMoneyEntity)
     override suspend fun getAllDistributions(): List<DistributionOfMoneyEntity>? = distributionOfMoneyDao.getAllDistributions()
+    override suspend fun deleteDistribution(distributionOfMoneyEntity: DistributionOfMoneyEntity) { distributionOfMoneyDao.deleteDistributions(distributionOfMoneyEntity)}
     override suspend fun updateDistribution(distributionOfMoneyEntity: DistributionOfMoneyEntity) = distributionOfMoneyDao.updateDistribution(distributionOfMoneyEntity)
     override suspend fun getDistribution(id: Int): DistributionOfMoneyEntity = distributionOfMoneyDao.getDistribution(id)
     override suspend fun insertTransaction(transactionsEntity: TransactionsEntity) = transactionDao.insertTransaction(transactionsEntity)

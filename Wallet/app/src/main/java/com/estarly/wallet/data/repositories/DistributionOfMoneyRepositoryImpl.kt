@@ -16,4 +16,5 @@ class DistributionOfMoneyRepositoryImpl(
     override suspend fun getAllDistributions(): List<DistributionOfMoneyModel>? = walletDatasource.getAllDistributions()?.map { it.parseModel()}
     override suspend fun updateDistribution(distributionOfMoneyModel: DistributionOfMoneyModel) = walletDatasource.updateDistribution(distributionOfMoneyModel.parseEntity())
     override suspend fun getDistribution(id: Int) = walletDatasource.getDistribution(id).parseModel()
+    override suspend fun deleteDistribution(distributionOfMoneyModel: DistributionOfMoneyModel) { walletDatasource.deleteDistribution(distributionOfMoneyModel.parseEntity())}
 }

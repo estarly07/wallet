@@ -13,6 +13,7 @@ class DistributionAdapter(
     private val list: List<DistributionOfMoneyModel>,
     val onClick: (value:DistributionOfMoneyModel, position: Int)-> Unit,
     val onClickCreate: ()-> Unit,
+    val onDelete : (value:DistributionOfMoneyModel, position: Int) -> Unit
 ) : RecyclerView.Adapter<DistributionAdapter.Holder>() {
     private var remainingMoney : Double = 0.0
     class Holder(val binding: ItemDistributionBinding) : ViewHolder(binding.root)
@@ -35,6 +36,12 @@ class DistributionAdapter(
                     if (position == 1) return@setOnClickListener
                     onClick(list[position-2],position)
                 }
+            }
+            root.setOnLongClickListener {
+                if (position != 0 && position != 1){
+                    onDelete(list[position-2],position)
+                }
+                return@setOnLongClickListener true
             }
             if(position == 0){
                 imgAddDistribution.visibility = View.VISIBLE

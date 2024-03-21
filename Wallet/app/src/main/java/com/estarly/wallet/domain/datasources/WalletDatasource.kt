@@ -22,6 +22,7 @@ interface WalletDatasource {
     suspend fun getSalary() : SalaryEntity?
     suspend fun saveDistribution(distributionOfMoneyEntity: DistributionOfMoneyEntity)
     suspend fun getAllDistributions():List<DistributionOfMoneyEntity>?
+    suspend fun deleteDistribution(distributionOfMoneyEntity:DistributionOfMoneyEntity)
     suspend fun updateDistribution(distributionOfMoneyEntity: DistributionOfMoneyEntity)
     suspend fun getDistribution(id: Int) : DistributionOfMoneyEntity
     suspend fun insertTransaction(transactionsEntity: TransactionsEntity)
