@@ -10,7 +10,11 @@ import com.estarly.wallet.databinding.ItemGoalBinding
 import com.estarly.wallet.domain.models.GoalModel
 import com.estarly.wallet.utils.formatSalary
 
-class GoalsAdapter(val list: List<GoalModel>,val onClick : (GoalModel) -> Unit) : RecyclerView.Adapter<GoalsAdapter.Holder>() {
+class GoalsAdapter(
+    val list: List<GoalModel>,
+    val onClick  : (GoalModel) -> Unit,
+    val onDelete : (GoalModel) -> Unit,
+) : RecyclerView.Adapter<GoalsAdapter.Holder>() {
     class Holder(val binding: ItemGoalBinding) : ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder
@@ -22,6 +26,10 @@ class GoalsAdapter(val list: List<GoalModel>,val onClick : (GoalModel) -> Unit) 
         with(holder.binding){
             val goal = list[position]
             root.setOnClickListener { onClick(goal) }
+            root.setOnLongClickListener {
+                onDelete(goal)
+                return@setOnLongClickListener true
+            }
             txtNameGoal.text = goal.name
             txtDescriptionGoal.text = goal.description.ifEmpty { goal.amountGoal.formatSalary() }
             Glide.with(holder.itemView.context)

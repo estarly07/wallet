@@ -44,4 +44,7 @@ interface WalletDatasource {
     suspend fun updateSavingMoney(savinMoneyEntity: SavinMoneyEntity)
     suspend fun saveSavingMoney(savinMoneyEntity: SavinMoneyEntity)
     suspend fun getSavingMoney() : SavinMoneyEntity?
+    suspend fun deleteGoal(goalEntity: GoalEntity)
+    suspend fun getGoal(idGoal: Int): GoalEntity?
+
 }

@@ -11,6 +11,7 @@ import com.estarly.wallet.domain.models.DistributionOfMoneyModel
 import com.estarly.wallet.domain.models.GoalModel
 import com.estarly.wallet.domain.usescases.CreateCdtUseCase
 import com.estarly.wallet.domain.usescases.CreateGoalUseCase
+import com.estarly.wallet.domain.usescases.DeleteGoalUseCase
 import com.estarly.wallet.domain.usescases.GetAllCDTSUseCase
 import com.estarly.wallet.domain.usescases.GetAllDistributionsOfMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetAllDistributionsOfMoneyUseCase_Factory
@@ -38,7 +39,8 @@ class GoalsViewModel @Inject constructor(
     private val getAllDistributionsOfMoneyUseCase: GetAllDistributionsOfMoneyUseCase,
     private val getRemainingMoneyUseCase: GetRemainingMoneyUseCase,
     private val getAmountSalaryUseCase: GetAmountSalaryUseCase,
-    private val updateGoalUseCase :UpdateGoalUseCase
+    private val updateGoalUseCase :UpdateGoalUseCase,
+    private val deleteGoalUseCase :DeleteGoalUseCase,
 ) : ViewModel(){
     private val _listGoals = MutableLiveData<List<GoalModel>>()
     val listGoals : LiveData<List<GoalModel>> = _listGoals
@@ -85,5 +87,11 @@ class GoalsViewModel @Inject constructor(
         goalModelUpdate = null
         availableMoney = 0.0
         _showDialogPayGoal.value = false
+    }
+
+    fun deleteGoal(idGoal: Int) {
+        viewModelScope.launch {
+            deleteGoalUseCase(idGoal)
+        }
     }
 }

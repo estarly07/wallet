@@ -11,6 +11,7 @@ import com.estarly.wallet.databinding.FragmentGoalsBinding
 import com.estarly.wallet.presentation.adapters.GoalsAdapter
 import com.estarly.wallet.presentation.dialogs.CreateGoalSheetDialog
 import com.estarly.wallet.presentation.dialogs.PayGoalBottomSheetDialog
+import com.estarly.wallet.presentation.dialogs.showYesOrNoAlertDialog
 import com.estarly.wallet.presentation.viewmodels.GoalsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,9 +41,20 @@ class GoalsFragment : Fragment() {
         with(binding){
             with(goalViewModel){
                 listGoals.observe(viewLifecycleOwner){ it ->
-                    recyclerGoals.adapter= GoalsAdapter(it){goal->
-                        showDialogPayGoal(goal)
-                    }
+                    recyclerGoals.adapter= GoalsAdapter(
+                        list    = it,
+                        onClick = {goal->
+                            showDialogPayGoal(goal)
+                        },
+                        onDelete = {goal ->
+                            showYesOrNoAlertDialog(
+                                requireContext(),
+                                title = "¿Estas seguro?",
+                                description = "Quieres eliminar esta meta '${goal.name}'",
+                                onPositive = { goalViewModel.deleteGoal(goal.id)}
+                            )
+                        }
+                    )
                 }
                 showDialogPayGoal.observe(viewLifecycleOwner){
                     if(!it) return@observe

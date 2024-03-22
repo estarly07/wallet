@@ -1,6 +1,7 @@
 package com.estarly.wallet.data.database.daos
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -15,4 +16,8 @@ interface GoalDao {
     suspend fun updateGoal(goalEntity: GoalEntity)
     @Query("SELECT * FROM goal_table")
     fun getGoals(): Flow<List<GoalEntity>?>
+    @Query("SELECT * FROM goal_table WHERE id=:idGoal")
+    suspend fun getGoal(idGoal : Int): GoalEntity?
+    @Delete
+    suspend fun deleteGoal(goalEntity: GoalEntity)
 }

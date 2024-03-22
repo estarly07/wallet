@@ -3,9 +3,7 @@ package com.estarly.wallet.data.repositories
 import com.estarly.wallet.data.mappers.parseEntity
 import com.estarly.wallet.data.mappers.parseModel
 import com.estarly.wallet.domain.datasources.WalletDatasource
-import com.estarly.wallet.domain.models.CDTModel
 import com.estarly.wallet.domain.models.GoalModel
-import com.estarly.wallet.domain.repositories.CDTRepository
 import com.estarly.wallet.domain.repositories.GoalRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -17,4 +15,6 @@ class GoalRepositoryImpl(
 
     override suspend fun insertGoal(goalModel: GoalModel) = walletDatasource.insertGoal(goalModel.parseEntity())
     override suspend fun updateGoal(goalModel: GoalModel) = walletDatasource.updateGoal(goalModel.parseEntity())
+    override suspend fun deleteGoal(goalModel: GoalModel) {walletDatasource.deleteGoal(goalModel.parseEntity())}
+    override suspend fun getGoal(idGoal: Int): GoalModel? = walletDatasource.getGoal(idGoal)?.parseModel()
 }

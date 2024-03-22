@@ -63,4 +63,6 @@ class WalletDatasourceImpl(
     override suspend fun updateSavingMoney(savinMoneyEntity: SavinMoneyEntity) = savingMoneyDao.updateSavingMoney(savinMoneyEntity)
     override suspend fun saveSavingMoney(savinMoneyEntity: SavinMoneyEntity) = savingMoneyDao.saveSavingMoney(savinMoneyEntity)
     override suspend fun getSavingMoney(): SavinMoneyEntity? = savingMoneyDao.getSavingMoney()
+    override suspend fun deleteGoal(goalEntity: GoalEntity) { goalDao.deleteGoal(goalEntity)}
+    override suspend fun getGoal(idGoal: Int): GoalEntity? = goalDao.getGoal(idGoal)
 }

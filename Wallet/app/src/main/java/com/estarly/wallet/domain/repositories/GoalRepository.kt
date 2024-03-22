@@ -7,4 +7,6 @@ interface GoalRepository {
     val goals : Flow<List<GoalModel>?>
     suspend fun insertGoal(goalModel: GoalModel)
     suspend fun updateGoal(goalModel: GoalModel)
+    suspend fun deleteGoal(goalModel: GoalModel)
+    suspend fun getGoal(idGoal : Int) : GoalModel?
 }
