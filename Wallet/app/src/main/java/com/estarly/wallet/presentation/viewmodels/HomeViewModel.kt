@@ -20,12 +20,14 @@ import com.estarly.wallet.domain.usescases.GetDistributionsOfMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetPercentageMoneySpentCurrentMonthUseCase
 import com.estarly.wallet.domain.usescases.GetRemainingMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetSalaryUseCase
+import com.estarly.wallet.domain.usescases.GetSalaryUserUseCase
 import com.estarly.wallet.domain.usescases.GetSavingMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetTheLastThreeTransactionsUseCase
 import com.estarly.wallet.domain.usescases.PayDebtUseCase
 import com.estarly.wallet.domain.usescases.SavingMoneyUseCase
 import com.estarly.wallet.domain.usescases.TakeMoneyOutUseCase
 import com.estarly.wallet.domain.usescases.UpdateSalaryUseCase
+import com.estarly.wallet.domain.usescases.UpdateSalaryUserUseCase
 import com.estarly.wallet.presentation.dialogs.showYesOrNoAlertDialog
 import com.estarly.wallet.utils.formatSalary
 import com.github.mikephil.charting.data.PieEntry
@@ -38,6 +40,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getSalaryUseCase   : GetSalaryUseCase,
     private val updateSalaryUseCase: UpdateSalaryUseCase,
+    private val updateUserSalaryUseCase: UpdateSalaryUserUseCase,
     private val getAllDistributionsOfMoneyUseCase: GetAllDistributionsOfMoneyUseCase,
     private val getTheLastThreeTransactionsUseCase: GetTheLastThreeTransactionsUseCase,
     private val takeMoneyOutUseCase: TakeMoneyOutUseCase,
@@ -50,7 +53,8 @@ class HomeViewModel @Inject constructor(
     private val getPercentageMoneySpentCurrentMonthUseCase: GetPercentageMoneySpentCurrentMonthUseCase,
     private val distributionAutomaticUseCase: DistributionAutomaticUseCase,
     private val savingMoneyUseCase: SavingMoneyUseCase,
-    private val getSavingMoneyUseCase : GetSavingMoneyUseCase
+    private val getSavingMoneyUseCase : GetSavingMoneyUseCase,
+    private val getSalaryUserUseCase : GetSalaryUserUseCase,
 ) : ViewModel(){
     private val _salary = MutableLiveData<String>()
     val salary : LiveData<String> = _salary
@@ -60,6 +64,8 @@ class HomeViewModel @Inject constructor(
     val showDialog : LiveData<Boolean> = _showDialog
     private val _showDialogSavingMoney = MutableLiveData<Boolean>()
     val showDialogSavingMoney : LiveData<Boolean> = _showDialogSavingMoney
+    private val _showDialogDepositSalary = MutableLiveData<Double?>()
+    val showDialogDepositSalary : LiveData<Double?> = _showDialogDepositSalary
     private val _showDialogPay = MutableLiveData<Boolean>()
     val showDialogPay : LiveData<Boolean> = _showDialogPay
     private val _lastThreeTransactions = MutableLiveData<List<TransactionModel>>()
@@ -254,6 +260,20 @@ class HomeViewModel @Inject constructor(
     fun savingMoney(savingMoney: Double) {
         viewModelScope.launch {
             savingMoneyUseCase(savingMoney)
+        }
+    }
+
+    fun showDialogDepositSalary() {
+        _showDialogDepositSalary.value = getSalaryUserUseCase()
+    }
+    fun dismissDialogDepositSalary() {
+        _showDialogDepositSalary.value = null
+    }
+
+    fun updateSalaryUser(salary: String) {
+        viewModelScope.launch {
+            updateSalaryUseCase(salary,null)
+            updateUserSalaryUseCase(salary)
         }
     }
 }
