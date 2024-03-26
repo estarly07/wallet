@@ -15,6 +15,8 @@ class DebtRepositoryImpl(
 
     override suspend fun insertDebt(debtModel: DebtModel) = walletDatasource.insertDebt(debtModel.parseEntity())
     override suspend fun getDebts(): List<DebtModel> = walletDatasource.getDebts()?.map { it.parseModel() } ?: listOf()
+    override suspend fun getDebt(idDebt: Int): DebtModel = walletDatasource.getDebt(idDebt).parseModel()
     override suspend fun updateDebt(debtModel: DebtModel) = walletDatasource.updateDebt(debtModel.parseEntity())
+    override suspend fun deleteDebt(debtModel: DebtModel) = walletDatasource.deleteDebt(debtModel.parseEntity())
     override suspend fun getDebtsDoNotFinished(): List<DebtModel> = walletDatasource.getDebtsDoNotFinished()?.map { it.parseModel() } ?: listOf()
 }

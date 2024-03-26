@@ -1,6 +1,7 @@
 package com.estarly.wallet.data.database.daos
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -19,4 +20,8 @@ interface DebtDao {
     suspend fun getDebtsDoNotFinished() : List<DebtEntity>?
     @Update
     suspend fun updateDebt(debtEntity: DebtEntity)
+    @Delete
+    suspend fun deleteDebt(debtEntity: DebtEntity)
+    @Query("SELECT * FROM debt_table WHERE id=:idDebt")
+    suspend fun getDebt(idDebt : Int): DebtEntity
 }

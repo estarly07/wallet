@@ -31,6 +31,7 @@ interface WalletDatasource {
     suspend fun getDebts(): List<DebtEntity>?
     suspend fun getDebtsDoNotFinished(): List<DebtEntity>?
     suspend fun updateDebt(debtEntity: DebtEntity)
+    suspend fun deleteDebt(debtEntity: DebtEntity)
     suspend fun insertCDT(cdtEntity: CDTEntity)
     suspend fun getCDTS():List<CDTEntity>?
     suspend fun updateCDT(cdtEntity: CDTEntity)
@@ -46,5 +47,6 @@ interface WalletDatasource {
     suspend fun getSavingMoney() : SavinMoneyEntity?
     suspend fun deleteGoal(goalEntity: GoalEntity)
     suspend fun getGoal(idGoal: Int): GoalEntity?
+    suspend fun getDebt(idDebt : Int): DebtEntity
 
 }

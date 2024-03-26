@@ -10,7 +10,7 @@ import com.estarly.wallet.databinding.ItemDebtBinding
 import com.estarly.wallet.domain.models.DebtModel
 import com.estarly.wallet.utils.formatSalary
 
-class DebtsAdapter(private val list: List<DebtModel>) : RecyclerView.Adapter<DebtsAdapter.Holder>() {
+class DebtsAdapter(private val list: List<DebtModel>, private val onDelete : (DebtModel) -> Unit) : RecyclerView.Adapter<DebtsAdapter.Holder>() {
     class Holder(val binding: ItemDebtBinding) : ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder
@@ -21,6 +21,10 @@ class DebtsAdapter(private val list: List<DebtModel>) : RecyclerView.Adapter<Deb
     override fun onBindViewHolder(holder: Holder, position: Int) {
         with(holder.binding){
             val debt = list[position]
+            root.setOnLongClickListener {
+                onDelete(debt)
+                return@setOnLongClickListener true
+            }
             txtNameDebtItem.text = debt.name
             if(debt.finished)
                 txtMissingAmountDebtItem.text = "Finalizado"

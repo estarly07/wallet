@@ -50,6 +50,7 @@ class WalletDatasourceImpl(
     override suspend fun getDebts(): List<DebtEntity>? = debtDao.getAllDebts()
     override suspend fun getDebtsDoNotFinished(): List<DebtEntity>? = debtDao.getDebtsDoNotFinished()
     override suspend fun updateDebt(debtEntity: DebtEntity) = debtDao.updateDebt(debtEntity)
+    override suspend fun deleteDebt(debtEntity: DebtEntity) = debtDao.deleteDebt(debtEntity)
     override suspend fun insertCDT(cdtEntity: CDTEntity) = cdtDao.insertCDT(cdtEntity)
     override suspend fun getCDTS(): List<CDTEntity>? =cdtDao.getAllCDTS()
     override suspend fun updateCDT(cdtEntity: CDTEntity) = cdtDao.updateCDT(cdtEntity)
@@ -65,4 +66,5 @@ class WalletDatasourceImpl(
     override suspend fun getSavingMoney(): SavinMoneyEntity? = savingMoneyDao.getSavingMoney()
     override suspend fun deleteGoal(goalEntity: GoalEntity) { goalDao.deleteGoal(goalEntity)}
     override suspend fun getGoal(idGoal: Int): GoalEntity? = goalDao.getGoal(idGoal)
+    override suspend fun getDebt(idDebt: Int): DebtEntity = debtDao.getDebt(idDebt)
 }

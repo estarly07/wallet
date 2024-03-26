@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.estarly.wallet.domain.models.DebtModel
 import com.estarly.wallet.domain.models.DistributionOfMoneyModel
 import com.estarly.wallet.domain.models.TransactionModel
+import com.estarly.wallet.domain.usescases.DeleteDebtUseCase
 import com.estarly.wallet.domain.usescases.GetAllDistributionsOfMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetDebtsUseCase
 import com.estarly.wallet.domain.usescases.GetSalaryUseCase
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DebtViewModel @Inject constructor(
     private val saveDebtUseCase: SaveDebtUseCase,
-    private val getDebtsUseCase: GetDebtsUseCase
+    private val getDebtsUseCase: GetDebtsUseCase,
+    private val deleteDebtUseCase: DeleteDebtUseCase,
 ) : ViewModel(){
     private val _listDebts = MutableLiveData<List<DebtModel>>()
     val listDebts : LiveData<List<DebtModel>> = _listDebts
@@ -44,6 +46,11 @@ class DebtViewModel @Inject constructor(
                 if(amountInitial.isEmpty()) null else amountInitial.toDouble(),
                 amountPaid.toDouble()
             )
+        }
+    }
+    fun deleteDebt(debtModel: DebtModel){
+        viewModelScope.launch {
+            deleteDebtUseCase(debtModel.id)
         }
     }
 }

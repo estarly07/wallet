@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.estarly.wallet.databinding.ActivityDebtsBinding
 import com.estarly.wallet.presentation.adapters.DebtsAdapter
 import com.estarly.wallet.presentation.dialogs.CreateDebtSheetDialog
+import com.estarly.wallet.presentation.dialogs.showYesOrNoAlertDialog
 import com.estarly.wallet.presentation.viewmodels.DebtViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,7 +34,14 @@ class DebtsActivity : AppCompatActivity() {
         with(debtViewModel){
             with(binding){
                 listDebts.observe(this@DebtsActivity){
-                    recyclerDebts.adapter = DebtsAdapter(it)
+                    recyclerDebts.adapter = DebtsAdapter(it){debt ->
+                        showYesOrNoAlertDialog(
+                            this@DebtsActivity,
+                            title = "¿Estas seguro?",
+                            description = "Quieres eliminar esta deuda '${debt.name}'",
+                            onPositive = { debtViewModel.deleteDebt(debt) }
+                        )
+                    }
                 }
             }
         }
