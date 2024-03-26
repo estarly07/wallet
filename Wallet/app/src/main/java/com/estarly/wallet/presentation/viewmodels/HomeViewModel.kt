@@ -23,13 +23,16 @@ import com.estarly.wallet.domain.usescases.GetSalaryUseCase
 import com.estarly.wallet.domain.usescases.GetSalaryUserUseCase
 import com.estarly.wallet.domain.usescases.GetSavingMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetTheLastThreeTransactionsUseCase
+import com.estarly.wallet.domain.usescases.GetVisibilitySalaryUseCase
 import com.estarly.wallet.domain.usescases.PayDebtUseCase
 import com.estarly.wallet.domain.usescases.SavingMoneyUseCase
 import com.estarly.wallet.domain.usescases.TakeMoneyOutUseCase
 import com.estarly.wallet.domain.usescases.UpdateSalaryUseCase
 import com.estarly.wallet.domain.usescases.UpdateSalaryUserUseCase
+import com.estarly.wallet.domain.usescases.UpdateVisibilitySalaryUseCase
 import com.estarly.wallet.presentation.dialogs.showYesOrNoAlertDialog
 import com.estarly.wallet.utils.formatSalary
+import com.estarly.wallet.utils.isThisDateInCurrentMonth
 import com.github.mikephil.charting.data.PieEntry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
@@ -55,6 +58,8 @@ class HomeViewModel @Inject constructor(
     private val savingMoneyUseCase: SavingMoneyUseCase,
     private val getSavingMoneyUseCase : GetSavingMoneyUseCase,
     private val getSalaryUserUseCase : GetSalaryUserUseCase,
+    private val getVisibilitySalaryUseCase : GetVisibilitySalaryUseCase,
+    private val updateVisibilitySalaryUseCase : UpdateVisibilitySalaryUseCase,
 ) : ViewModel(){
     private val _salary = MutableLiveData<String>()
     val salary : LiveData<String> = _salary
@@ -66,6 +71,8 @@ class HomeViewModel @Inject constructor(
     val showDialogSavingMoney : LiveData<Boolean> = _showDialogSavingMoney
     private val _showDialogDepositSalary = MutableLiveData<Double?>()
     val showDialogDepositSalary : LiveData<Double?> = _showDialogDepositSalary
+    private val _showBalance = MutableLiveData<Boolean>()
+    val showBalance : LiveData<Boolean> = _showBalance
     private val _showDialogPay = MutableLiveData<Boolean>()
     val showDialogPay : LiveData<Boolean> = _showDialogPay
     private val _lastThreeTransactions = MutableLiveData<List<TransactionModel>>()
@@ -81,6 +88,7 @@ class HomeViewModel @Inject constructor(
 
     fun getSalary(){
         viewModelScope.launch {
+            _showBalance.value = getVisibilitySalaryUseCase()
             getDistributions()//active because if there is a change in the distributions
             getSalaryUseCase()
                 .map {
@@ -91,7 +99,7 @@ class HomeViewModel @Inject constructor(
                 }
                 .collect {
                     _salary.value = it
-                    getValuesGraphic()
+                    getValuesGraphic(_showBalance.value!!)
                 }
         }
     }
@@ -111,22 +119,22 @@ class HomeViewModel @Inject constructor(
                 }
         }
     }
-    private fun getValuesGraphic(){
+    private fun getValuesGraphic(showAmounts : Boolean){
         viewModelScope.launch {
-            val transactions = getAllTransactionsUseCase()
+            val transactions = getAllTransactionsUseCase().filter { transactionModel -> transactionModel.date.isThisDateInCurrentMonth() }
             val deposit   = getPercentage(transactions, TypeTransactions.DEPOSIT)
             val takeMoney = getPercentage(transactions, TypeTransactions.TAKE_MONEY_OUT)
             val payDebt   = getPercentage(transactions, TypeTransactions.PAY_DEBT)
             val saving    = getPercentageSavingMoney(transactions)
             val entries = listOf(
                 PieEntry(1f, ""),//margin
-                PieEntry(deposit.first  , if(deposit.second == "0")   "" else deposit.second),
+                PieEntry(deposit.first  , if(deposit.second == "0" || !showAmounts)   "" else deposit.second),
                 PieEntry(1f, ""),//margin
-                PieEntry(takeMoney.first, if(takeMoney.second == "0") "" else takeMoney.second),
+                PieEntry(takeMoney.first, if(takeMoney.second == "0" || !showAmounts) "" else takeMoney.second),
                 PieEntry(1f, ""),//margin
-                PieEntry(payDebt.first  , if(payDebt.second == "0")   "" else payDebt.second),
+                PieEntry(payDebt.first  , if(payDebt.second == "0" || !showAmounts)   "" else payDebt.second),
                 PieEntry(1f, ""),//margin
-                PieEntry(saving.first   , if(saving.second == "0")    "" else  saving.second),
+                PieEntry(saving.first   , if(saving.second == "0" || !showAmounts)    "" else  saving.second),
             )
             _entriesEntries.value = entries
         }
@@ -275,5 +283,11 @@ class HomeViewModel @Inject constructor(
             updateSalaryUseCase(salary,null)
             updateUserSalaryUseCase(salary)
         }
+    }
+
+    fun changeVisibilityBalance() {
+        _showBalance.value = !(_showBalance.value ?: false)
+        updateVisibilitySalaryUseCase(_showBalance.value!!)
+        getValuesGraphic(_showBalance.value!!)
     }
 }

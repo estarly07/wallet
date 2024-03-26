@@ -25,6 +25,8 @@ class UserRepositoryImpl(
     override fun havePassword(): Boolean = walletPreferences.password?.isNotEmpty() ?: false
     override fun getUserSalary(): Double = walletPreferences.userSalary
     override fun updateUserSalary(salary: Double) { walletPreferences.userSalary = salary}
+    override fun getVisibilitySalary() : Boolean = walletPreferences.visibilitySalary
+    override fun updateVisibilitySalary(visibility: Boolean) { walletPreferences.visibilitySalary = visibility}
 
     private fun hashPassword(password: String): String {
         val bytes = password.toByteArray(Charsets.UTF_8)

@@ -6,4 +6,6 @@ interface UserRepository {
      fun havePassword() : Boolean
      fun getUserSalary() : Double
      fun updateUserSalary(salary :Double)
+     fun getVisibilitySalary() : Boolean
+     fun updateVisibilitySalary(visibility: Boolean)
 }

@@ -58,6 +58,17 @@ class HomeFragment : Fragment() {
                 salary.observe(viewLifecycleOwner){
                     salaryCard.txtSalary.text = it
                 }
+                showBalance.observe(viewLifecycleOwner){
+                    if(it){
+                        salaryCard.txtSalary.animAppear()
+                        salaryCard.imgNoVisibleSalary.animVanish()
+                        salaryCard.btnVisibilityBalance.setImageDrawable(requireActivity().resources.getDrawable(R.drawable.ic_visible))
+                    }else{
+                        salaryCard.btnVisibilityBalance.setImageDrawable(requireActivity().resources.getDrawable(R.drawable.ic_no_visible))
+                        salaryCard.txtSalary.animVanish()
+                        salaryCard.imgNoVisibleSalary.animAppear()
+                    }
+                }
                 percentageSpent.observe(viewLifecycleOwner){
                     salaryCard.txtPercentageSpent.text = it
                 }
@@ -167,6 +178,9 @@ class HomeFragment : Fragment() {
                     showFABMenu()
                 }
                 floatingsTransactions.fabMain.animRotate(isFABOpen)
+            }
+            salaryCard.btnVisibilityBalance.setOnClickListener {
+                homeViewModel.changeVisibilityBalance()
             }
             btnDrawerMenu.setOnClickListener {MainActivity.openDrawerMenu?.openDrawerMenu() }
             buttonsActionsTransactions.btnToDeposit.setOnClickListener {homeViewModel.showDialog() }

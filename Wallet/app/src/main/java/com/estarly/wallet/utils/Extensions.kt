@@ -3,6 +3,7 @@ package com.estarly.wallet.utils
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -15,6 +16,12 @@ fun Double.formatSalary(): String {
         format.applyPattern("#,###,###,##0.00")
     }
     return format.format(this)
+}
+fun Long.isThisDateInCurrentMonth(): Boolean {
+    val calendar = Calendar.getInstance()
+    val currentMonth = calendar.get(Calendar.MONTH)
+    calendar.timeInMillis = this
+    return calendar.get(Calendar.MONTH) == currentMonth
 }
 fun Long.parseDate() : String{
     val dateFormat = SimpleDateFormat("h:mm a - MMM dd, yyyy", Locale("es", "ES"))

@@ -11,6 +11,7 @@ class WalletPreferences (
         private const val PREFERENCES  = "PREFERENCES"
         private const val KEY_PASSWORD = "KEY_PASSWORD"
         private const val KEY_SALARY   = "KEY_SALARY"
+        private const val KEY_VISIBILITY_SALARY = "KEY_VISIBILITY_SALARY"
     }
     var password: String?
         get() = sharedPreferences.getString(KEY_PASSWORD,"")
@@ -24,6 +25,13 @@ class WalletPreferences (
         set(value) {
             val editor = sharedPreferences.edit()
             editor.putFloat(KEY_SALARY, value.toFloat())
+            editor.apply()
+        }
+    var visibilitySalary: Boolean
+        get() = sharedPreferences.getBoolean(KEY_VISIBILITY_SALARY,true)
+        set(value) {
+            val editor = sharedPreferences.edit()
+            editor.putBoolean(KEY_VISIBILITY_SALARY, value)
             editor.apply()
         }
 }
