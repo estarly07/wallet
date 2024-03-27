@@ -27,7 +27,9 @@ import com.estarly.wallet.presentation.viewmodels.HomeViewModel
 import com.estarly.wallet.utils.animAppear
 import com.estarly.wallet.utils.animRotate
 import com.estarly.wallet.utils.animVanish
+import com.estarly.wallet.utils.animateCascadeLayout
 import com.estarly.wallet.utils.animationTranslateUp
+import com.estarly.wallet.utils.transitionLeft
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.data.PieData
@@ -52,6 +54,34 @@ class HomeFragment : Fragment() {
         initObservers()
     }
 
+    override fun onResume() {
+        super.onResume()
+        startAnimations()
+    }
+    private fun startAnimations(){
+        with(binding){
+            buttonsActionsTransactions.root.animateCascadeLayout()
+            buttonsActionsTransactions.root.animAppear()
+
+            with(graphic){
+                recyclerIndicatorsGraphic.animAppear()
+                recyclerIndicatorsGraphic.transitionLeft()
+            }
+        }
+    }
+    private fun returnAnimations(){
+        with(binding){
+            buttonsActionsTransactions.root.visibility = View.INVISIBLE
+            with(graphic){
+                recyclerIndicatorsGraphic.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+    override fun onPause() {
+        returnAnimations()
+        super.onPause()
+    }
     private fun initObservers() {
         with(binding){
             with(homeViewModel){

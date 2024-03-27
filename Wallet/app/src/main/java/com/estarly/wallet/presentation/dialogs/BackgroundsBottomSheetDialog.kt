@@ -7,6 +7,7 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.estarly.wallet.R
+import com.estarly.wallet.domain.models.colors
 import com.estarly.wallet.presentation.adapters.BackgroundsAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
@@ -25,16 +26,7 @@ class BackgroundsBottomSheetDialog {
             }
             val recycler = view.findViewById<RecyclerView>(R.id.recyclerBackgrounds)
             recycler.layoutManager = GridLayoutManager(activity,3)
-            recycler.adapter =BackgroundsAdapter(
-                listOf(
-                    R.drawable.one,
-                    R.drawable.two,
-                    R.drawable.three,
-                    R.drawable.four,
-                    R.drawable.five,
-                    R.drawable.six,
-                )
-            ) { backgroundSelect = it }
+            recycler.adapter =BackgroundsAdapter(colors.map { it.color }) { backgroundSelect = it }
             bottomSheetDialog.setContentView(view)
             bottomSheetDialog.show()
         }

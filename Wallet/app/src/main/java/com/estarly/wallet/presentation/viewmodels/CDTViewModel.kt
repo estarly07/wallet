@@ -30,12 +30,19 @@ class CDTViewModel @Inject constructor(
 ) : ViewModel(){
     private val _listCdts = MutableLiveData<List<CDTModel>>()
     val listCdts : LiveData<List<CDTModel>> = _listCdts
+    private val _total = MutableLiveData<String>()
+    val total : LiveData<String> = _total
 
     fun getCDTS(){
         viewModelScope.launch {
             getAllCDTSUseCase()
                 .map { it ?: listOf() }
-                .collect{ _listCdts.value = it }
+                .collect{
+                    _listCdts.value = it
+                    var amount = 0.0
+                    it.map { it.amount }.forEach { amount += it }
+                    _total.value = amount.formatSalary()
+                }
         }
     }
 

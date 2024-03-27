@@ -33,6 +33,9 @@ class CDTActivity : AppCompatActivity() {
                         }
                     }
                 }
+                total.observe(this@CDTActivity){
+                    txtTotalCdt.text = it
+                }
             }
         }
     }

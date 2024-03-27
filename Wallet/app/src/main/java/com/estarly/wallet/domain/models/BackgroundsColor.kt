@@ -17,4 +17,9 @@ val colors = listOf(
     BackgroundsColor("four", R.drawable.four,),
     BackgroundsColor("five", R.drawable.five,),
     BackgroundsColor("six", R.drawable.six,),
+    BackgroundsColor("seven", R.drawable.seven,),
+    BackgroundsColor("eight", R.drawable.eight,),
+    BackgroundsColor("nine", R.drawable.nine,),
+    BackgroundsColor("ten", R.drawable.ten,),
+    BackgroundsColor("eleven", R.drawable.eleven,),
 )

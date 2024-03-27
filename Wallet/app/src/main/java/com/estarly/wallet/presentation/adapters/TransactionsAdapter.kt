@@ -22,7 +22,7 @@ class TransactionsAdapter(val listTransactions: List<TransactionModel>) : Recycl
         with(holder.binding){
             val transaction = listTransactions[position]
             if(position == listTransactions.size-1){
-                separator.visibility = GONE
+//                separator.visibility = GONE
             }
             txtAmountTransaction.text = transaction.amount.formatSalary()
             txtDescriptionTransaction.text = transaction.description
