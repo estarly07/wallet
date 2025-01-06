@@ -7,6 +7,24 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
+fun Double.getProfit(
+    tea       : Double,//Tasa efectiva anual
+    tna       : Double,//Tasa nominal anual
+    days      : Int,   //plazo
+    rteFuente : Double?//Retención en la fuente
+) : String {
+    val newTea = tea /100
+    // Calcular la tasa efectiva para el período según TEA o TNA
+    val ratePeriod =/* if (newTea > 0) {
+        (1 + newTea).pow(days / 365.0) - 1 // Si se usa TEA, la fórmula de capitalización compuesta
+    } else {*/
+        (tna / 100) * (days / 360.0)  // Si no se usa TEA, usamos TNA de forma lineal
+    //}
+
+    val grossInterest = this * ratePeriod// Calcular intereses brutos generados
+    return (grossInterest - (rteFuente ?: 0.0)).formatSalary()// Calcular intereses netos
+}
+
 fun Double.formatSalary(): String {
     val format = NumberFormat.getInstance(Locale("es", "ES")) as DecimalFormat
     format.applyPattern("#,###,###,##0.00")

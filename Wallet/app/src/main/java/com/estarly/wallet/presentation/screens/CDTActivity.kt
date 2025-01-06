@@ -28,8 +28,8 @@ class CDTActivity : AppCompatActivity() {
             with(cdtViewModel){
                 listCdts.observe(this@CDTActivity){
                     recyclerCedetes.adapter = CDTAdapter(it){
-                        CreateCDTSheetDialog.showBottomSheetDialog(this@CDTActivity,it){amountInitial, image ->
-                            cdtViewModel.createCdt(it.id,amountInitial,image)
+                        CreateCDTSheetDialog.showBottomSheetDialog(this@CDTActivity,it){amountInitial, tea, tna, time,rteFuente, image ->
+                            cdtViewModel.createCdt(id = it.id,amount = amountInitial,tea = tea, tna = tna, time = time,rteFuente =rteFuente, image = image)
                         }
                     }
                 }
@@ -53,8 +53,8 @@ class CDTActivity : AppCompatActivity() {
             recyclerCedetes.layoutManager = LinearLayoutManager(this@CDTActivity, LinearLayoutManager.VERTICAL,false)
 
             btnCreateCDT.setOnClickListener {
-                CreateCDTSheetDialog.showBottomSheetDialog(this@CDTActivity,){amountInitial, image ->
-                    cdtViewModel.createCdt(null,amountInitial,image)
+                CreateCDTSheetDialog.showBottomSheetDialog(this@CDTActivity,){amountInitial, tea, tna, time,rteFuente, image ->
+                    cdtViewModel.createCdt(id =null,amount = amountInitial,tea = tea, tna = tna, time = time,rteFuente = rteFuente, image = image)
                 }
             }
         }

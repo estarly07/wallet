@@ -20,8 +20,9 @@ class CDTAdapter(val list: List<CDTModel>,val onEdit:(CDTModel)->Unit) : Recycle
         with(holder.binding){
             val cdt = list[position]
             imgBackgroundItemCedetes.setImageResource(cdt.image)
-            txtDateCDT.text = cdt.dateLastPaidFormatted
+            txtDateCDT.text   = cdt.dateLastPaidFormatted
             txtAmountCDT.text = cdt.amount.formatSalary()
+            txtProfitCDT.text = cdt.profit
             btnEditCDT.setOnClickListener { onEdit(cdt) }
         }
     }

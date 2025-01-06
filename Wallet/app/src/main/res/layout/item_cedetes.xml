@@ -38,17 +38,38 @@
             android:textColor="@color/white"
             android:textSize="@dimen/subtitle" />
 
-        <TextView
-            android:id="@+id/txtAmountCDT"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:ellipsize="end"
-            android:lines="1"
-            android:text="$100000000"
-            android:textColor="@color/white"
-            android:textSize="@dimen/titleScreen"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtAmountCDT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:layout_marginRight="5dp"
+                android:text="$100000000"
+                android:textColor="@color/white"
+                android:textSize="@dimen/titleScreen"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/txtProfitCDT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="$100000000"
+                android:paddingHorizontal="5dp"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/background_corners_rounded"
+                android:textColor="@color/percentageSaving"
+                android:textSize="@dimen/title"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/btnEditCDT"

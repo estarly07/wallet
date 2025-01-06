@@ -22,7 +22,7 @@ import com.estarly.wallet.data.database.entities.SavinMoneyEntity
 import com.estarly.wallet.data.database.entities.TransactionsEntity
 
 @Database(
-    version = 5,
+    version = 6,
     entities = [
         DebtEntity::class,
         DistributionOfMoneyEntity::class,
@@ -53,6 +53,14 @@ abstract class WalletDatabase : RoomDatabase(){
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("DROP TABLE saving_money_table")
                 database.execSQL("CREATE TABLE IF NOT EXISTS saving_money_table (id INTEGER PRIMARY KEY NOT NULL, amount_saving DOUBLE NOT NULL)")
+            }
+        }
+        val MIGRATION_5_6 = object : Migration(5, 6){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE cdt_table ADD COLUMN tea REAL")
+                database.execSQL("ALTER TABLE cdt_table ADD COLUMN tna REAL")
+                database.execSQL("ALTER TABLE cdt_table ADD COLUMN days INTEGER")
+                database.execSQL("ALTER TABLE cdt_table ADD COLUMN rteFuente REAL")
             }
         }
 

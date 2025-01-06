@@ -46,12 +46,12 @@ class CDTViewModel @Inject constructor(
         }
     }
 
-    fun createCdt(id : Int?, amount: String, image : Int){
+    fun createCdt(id : Int?, amount: String,tea : Double, tna : Double, time : Int,rteFuente : Double?, image : Int){
         viewModelScope.launch {
             if(id==null){
-                createCdtUseCase(amount,image)
+                createCdtUseCase(amount = amount, tea = tea, tna = tna, time = time,rteFuente = rteFuente, image= image)
             }else{
-                updateCdtUseCase(id,amount,image)
+                updateCdtUseCase(id = id,amount = amount, tea = tea, tna = tna, time = time,rteFuente = rteFuente, image= image)
             }
         }
     }

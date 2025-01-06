@@ -28,6 +28,7 @@ class DatabaseModule {
         .databaseBuilder(context,WalletDatabase ::class.java,"wallet_database")
         .addMigrations(WalletDatabase.MIGRATION_3_4)
         .addMigrations(WalletDatabase.MIGRATION_4_5)
+        .addMigrations(WalletDatabase.MIGRATION_5_6)
         .build()
 
     @Provides
