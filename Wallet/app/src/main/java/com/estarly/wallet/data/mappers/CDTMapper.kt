@@ -11,24 +11,24 @@ import com.estarly.wallet.utils.parseDate
 import kotlin.math.roundToInt
 
 fun CDTModel .parseEntity() = CDTEntity(
-    id,
-    amount,
-    dateLastPaid,
-    getNameColorBackground(image),
-    days      = days,
-    tea       = tea,
-    tna       = tna,
-    rteFuente = rteFuente,
+    id           = id,
+    amount       = amount,
+    dateLastPaid = dateLastPaid,
+    image        = getNameColorBackground(image),
+    days         = days,
+    tea          = tea,
+    tna          = tna,
+    rteFuente    = rteFuente,
 )
 fun CDTEntity.parseModel () = CDTModel(
-    id,
-    amount,
-    dateLastPaid,
-    dateLastPaid.parseDate(),
-    getColorBackground(image),
-    tna       = tna,
-    tea       = tea,
-    days      = days,
-    rteFuente = rteFuente,
-    profit    = tea?.let { amount.getProfit(tea = tea,tna = tna!!, days = days!!, rteFuente = rteFuente) } ?: "-"
+    id           = id,
+    amount       = amount,
+    dateLastPaid = dateLastPaid,
+    image        =  getColorBackground(image),
+    tna          = tna,
+    tea          = tea,
+    days         = days,
+    rteFuente    = rteFuente,
+    profit       = tea?.let { amount.getProfit(tea = tea,tna = tna!!, days = days!!, rteFuente = rteFuente) } ?: "-",
+    dateLastPaidFormatted =  dateLastPaid.parseDate(),
 )
