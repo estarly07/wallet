@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.estarly.wallet.R
 import com.estarly.wallet.databinding.ActivityCedetesBinding
 import com.estarly.wallet.presentation.adapters.CDTAdapter
 import com.estarly.wallet.presentation.dialogs.CreateCDTSheetDialog
@@ -16,6 +17,7 @@ import kotlin.math.abs
 class CDTActivity : AppCompatActivity() {
     private val cdtViewModel : CDTViewModel by viewModels()
     private lateinit var binding : ActivityCedetesBinding
+    private val cdtAdapter = CDTAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCedetesBinding.inflate(layoutInflater)
@@ -28,16 +30,8 @@ class CDTActivity : AppCompatActivity() {
     private fun initObservers() {
         with(binding){
             with(cdtViewModel){
-                listCdts.observe(this@CDTActivity){
-                    recyclerCedetes.adapter = CDTAdapter(it){
-                        CreateCDTSheetDialog.showBottomSheetDialog(this@CDTActivity,it){amountInitial, tea, tna, time,rteFuente, image ->
-                            cdtViewModel.createCdt(id = it.id,amount = amountInitial,tea = tea, tna = tna, time = time,rteFuente =rteFuente, image = image)
-                        }
-                    }
-                }
-                total.observe(this@CDTActivity){
-                    txtTotalCdt.text = it
-                }
+                listCdts.observe(this@CDTActivity){ cdtAdapter.setList(it) }
+                total.observe(this@CDTActivity){ cdtAdapter.setTotal(it)}
             }
         }
     }
@@ -51,7 +45,8 @@ class CDTActivity : AppCompatActivity() {
 
     private fun initViews() {
         with(binding){
-            btnBack.setOnClickListener { onBackPressed() }
+            btnBack.icon.setImageResource(R.drawable.ic_close)
+            btnBack.root.setOnClickListener { onBackPressed() }
             recyclerCedetes.layoutManager = LinearLayoutManager(this@CDTActivity, LinearLayoutManager.VERTICAL,false)
             recyclerCedetes.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -66,8 +61,13 @@ class CDTActivity : AppCompatActivity() {
                     }
                 }
             })
-
-            btnCreateCDT.setOnClickListener {
+            recyclerCedetes.adapter = cdtAdapter
+            cdtAdapter.setOnEdit {
+                CreateCDTSheetDialog.showBottomSheetDialog(this@CDTActivity,it){amountInitial, tea, tna, time,rteFuente, image ->
+                    cdtViewModel.createCdt(id = it.id,amount = amountInitial,tea = tea, tna = tna, time = time,rteFuente =rteFuente, image = image)
+                }
+            }
+            cdtAdapter.setOnCreate {
                 CreateCDTSheetDialog.showBottomSheetDialog(this@CDTActivity,){amountInitial, tea, tna, time,rteFuente, image ->
                     cdtViewModel.createCdt(id =null,amount = amountInitial,tea = tea, tna = tna, time = time,rteFuente = rteFuente, image = image)
                 }

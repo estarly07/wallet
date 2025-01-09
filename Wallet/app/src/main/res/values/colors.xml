@@ -7,7 +7,7 @@
     <color name="grayLight2">#CDCDCD</color>
     <color name="grayLight">#8A8A8A</color>
     <color name="grayDark">#5A5A5A</color>
-    <color name="backgroundScreens">#f6f9fe</color>
+    <color name="backgroundScreens">#FFFFFF</color>
     <!--  Graphic  -->
     <color name="salary">#49c7ef</color>
     <color name="percentageSpent">#9c5ff8</color>

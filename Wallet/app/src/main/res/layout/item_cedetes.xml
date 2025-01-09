@@ -1,91 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginHorizontal="10dp"
-    android:orientation="vertical"
-    app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="@dimen/cornersCard"
-    app:cardElevation="10dp"
-    app:cardUseCompatPadding="true">
-
-    <LinearLayout
+    android:layout_height="wrap_content">
+    <include
+        android:id="@+id/total"
+        android:visibility="gone"
+        layout="@layout/card_total_cdt"/>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="20dp">
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/cornersCard"
+        app:cardElevation="@dimen/cardElevation"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="30dp">
 
-        <RelativeLayout
-            android:id="@+id/btnEditCDT"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/imgBackgroundItemCedetes"
+            <RelativeLayout
+                android:id="@+id/btnEditCDT"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/two"
-                app:riv_corner_radius_top_left="@dimen/cornersCard"
-                app:riv_corner_radius_top_right="@dimen/cornersCard" />
+                android:layout_height="70dp">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                app:cardBackgroundColor="@color/white"
-                app:cardUseCompatPadding="true"
-                app:cardCornerRadius="@dimen/cornersCard">
-
-                <ImageView
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/imgBackgroundItemCedetes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_edit" />
-            </androidx.cardview.widget.CardView>
-        </RelativeLayout>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/two"
+                    app:riv_corner_radius_top_left="@dimen/cornersCard"
+                    app:riv_corner_radius_top_right="@dimen/cornersCard" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:orientation="vertical">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/cornersCard"
+                    app:cardUseCompatPadding="true">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:ellipsize="end"
-                android:lines="1"
-                android:text="Modificación"
-                android:textColor="@color/grayLight"
-                android:textSize="@dimen/normal" />
-
-            <TextView
-                android:id="@+id/txtDateCDT"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="1"
-                android:text="27 agos 2021"
-                android:textColor="@color/black"
-                android:textSize="@dimen/subtitle"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="20dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_edit" />
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginHorizontal="20dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -94,17 +67,17 @@
                     android:layout_marginTop="10dp"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:text="Monto"
+                    android:text="Modificación"
                     android:textColor="@color/grayLight"
                     android:textSize="@dimen/normal" />
 
                 <TextView
-                    android:id="@+id/txtAmountCDT"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/txtDateCDT"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:text="$100000000"
+                    android:text="27 agos 2021"
                     android:textColor="@color/black"
                     android:textSize="@dimen/subtitle"
                     android:textStyle="bold" />
@@ -113,33 +86,68 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end|top"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:text="Beneficio"
-                    android:textColor="@color/grayLight"
-                    android:textSize="@dimen/normal" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/txtProfitCDT"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text="Monto"
+                        android:textColor="@color/grayLight"
+                        android:textSize="@dimen/normal" />
+
+                    <TextView
+                        android:id="@+id/txtAmountCDT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text="$100000000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/subtitle"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:text="$100000000"
-                    android:textColor="@color/percentageSaving"
-                    android:textSize="@dimen/subtitle"
-                    android:textStyle="bold" />
+                    android:layout_weight="1"
+                    android:gravity="end|top"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text="Beneficio"
+                        android:textColor="@color/grayLight"
+                        android:textSize="@dimen/normal" />
+
+                    <TextView
+                        android:id="@+id/txtProfitCDT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text="$100000000"
+                        android:textColor="@color/percentageSaving"
+                        android:textSize="@dimen/subtitle"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
             </LinearLayout>
-
         </LinearLayout>
-    </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>
