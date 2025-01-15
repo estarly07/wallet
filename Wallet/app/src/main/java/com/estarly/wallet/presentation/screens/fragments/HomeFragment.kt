@@ -15,12 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.estarly.wallet.R
 import com.estarly.wallet.databinding.FragmentHomeBinding
 import com.estarly.wallet.domain.models.ItemGraphic
+import com.estarly.wallet.domain.models.TypeTransactions
 import com.estarly.wallet.presentation.adapters.GraphicItemsAdapter
 import com.estarly.wallet.presentation.adapters.TransactionsAdapter
-import com.estarly.wallet.presentation.dialogs.DepositBottomSheetDialog
 import com.estarly.wallet.presentation.dialogs.DepositSalaryBottomSheetDialog
 import com.estarly.wallet.presentation.dialogs.PayBottomSheetDialog
 import com.estarly.wallet.presentation.dialogs.SavingOrTakeOffMoneyBottomSheetDialog
+import com.estarly.wallet.presentation.screens.KeyboardActivity
 import com.estarly.wallet.presentation.screens.MainActivity
 import com.estarly.wallet.presentation.screens.TransactionsActivity
 import com.estarly.wallet.presentation.viewmodels.HomeViewModel
@@ -104,16 +105,12 @@ class HomeFragment : Fragment() {
                 }
                 showDialog.observe(viewLifecycleOwner){
                     if(!it) return@observe
-                    DepositBottomSheetDialog.showBottomSheetDialog(
-                        requireActivity(),
-                        homeViewModel.listDistributionOfMoney,
-                        availableMoney = availableMoney,
-                        isTakeOfMoney =isTakeOfMoney,
-                        onDismiss = {homeViewModel.dismissDialog()},
-                        onDeposit = { amount,whyTakeOfMoney, distribution ->
-                            homeViewModel.updateSalary(amount,whyTakeOfMoney, distribution)
-                        }
-                    )
+                    val intent = Intent(requireActivity(), KeyboardActivity :: class.java)
+                    intent.putExtra(KeyboardActivity.KEY_ARGUMENT, if(isTakeOfMoney) TypeTransactions.TAKE_MONEY_OUT.name else TypeTransactions.DEPOSIT.name)
+                    KeyboardActivity.onFinished = { amount, distribution ->
+                        homeViewModel.updateSalary(amount,null, distribution)
+                    }
+                    requireActivity().startActivity(intent)
                 }
                 showDialogPay.observe(viewLifecycleOwner){
                     if(!it) return@observe

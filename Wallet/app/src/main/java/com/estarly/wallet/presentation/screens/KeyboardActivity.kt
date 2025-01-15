@@ -1,25 +1,45 @@
 package com.estarly.wallet.presentation.screens
 
+import android.animation.Animator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.estarly.wallet.R
 import com.estarly.wallet.databinding.ActivityKeyboardBinding
+import com.estarly.wallet.domain.models.DistributionOfMoneyModel
+import com.estarly.wallet.domain.models.TypeTransactions
+import com.estarly.wallet.domain.models.advice
+import com.estarly.wallet.domain.models.name
+import com.estarly.wallet.presentation.adapters.DistributionSelectAdapter
 import com.estarly.wallet.presentation.viewmodels.KeyboardViewModel
 import com.estarly.wallet.utils.formatSalary
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class KeyboardActivity : AppCompatActivity(), OnClickListener {
     private lateinit var binding : ActivityKeyboardBinding
     private val keyboardViewModel : KeyboardViewModel by viewModels()
+    private lateinit var typeTransaction : TypeTransactions
+    companion object{
+        const val KEY_ARGUMENT ="KEY_ARGUMENT"
+        var onFinished : ((amount : String, distribution : DistributionOfMoneyModel?) -> Unit)? = null
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityKeyboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val type = intent.extras?.getString(KEY_ARGUMENT) ?: return finish()
+        typeTransaction = TypeTransactions.valueOf(type)
+        keyboardViewModel.setTypeTransaction(typeTransaction)
         initView()
         initObservers()
     }
@@ -31,6 +51,24 @@ class KeyboardActivity : AppCompatActivity(), OnClickListener {
                 amount.observe(this@KeyboardActivity){
                     keyboard.buttonZero.isEnabled = it.isNotEmpty()
                     txtAmount.text =  "$ ${if(it.isEmpty()) "0" else it.toDouble().formatSalary()}"
+                }
+                validAmount.observe(this@KeyboardActivity){
+                    btnDone.isEnabled = it
+                    btnDone.setBackgroundColor(if(it) getColor(R.color.black) else getColor(R.color.grayDark))
+                    txtAmount.setTextColor(if(it || amount.value.isNullOrEmpty())getColor(R.color.black) else getColor(R.color.percentagePays))
+                }
+                distributionSelect.observe(this@KeyboardActivity){
+                    with(btnSelectDistribution){
+                        txtTitleItemDistribution.text = it.name
+                        txtAmountItemDistribution.text = it.amountSaved.formatSalary()
+                        imgItemDistribution.setImageResource(it.image)
+                    }
+                }
+                distributions.observe(this@KeyboardActivity){
+                    recyclerDistributions.adapter = DistributionSelectAdapter(it){distribution, position ->
+                        selectDistribution(distribution)
+                        collapseRecyclerView()
+                    }
                 }
             }
         }
@@ -57,12 +95,67 @@ class KeyboardActivity : AppCompatActivity(), OnClickListener {
                 buttonZero.setOnClickListener(this@KeyboardActivity)
                 buttonBackspace.setOnClickListener { keyboardViewModel.deleteLastCharacter()}
             }
-            btnDone.setOnClickListener { Log.v("HOLI","${keyboardViewModel.amount.value}") }
+            cardDebts.isVisible = typeTransaction == TypeTransactions.PAY_DEBT
+            cardAdvice.isVisible = typeTransaction != TypeTransactions.PAY_DEBT
+            txtAdvice.text = typeTransaction.advice()
+            btnDone.setOnClickListener {
+                onFinished?.invoke(
+                    keyboardViewModel.amount.value!!,
+                    keyboardViewModel.distributionSelect.value
+                )
+                onFinished = null
+                finish()
+            }
+            btnBack.root.setOnClickListener { finish() }
+            btnSelectDistribution.imgCheckDistribution.visibility = View.GONE
+            btnSelectDistribution.root.setOnClickListener {
+                if (expandableContainer.isVisible) {
+                    collapseRecyclerView()
+                } else {
+                    expandRecyclerView()
+                }
+            }
+            txtTitleToolbar.text = typeTransaction.name()
+            recyclerDistributions.layoutManager = LinearLayoutManager(this@KeyboardActivity,LinearLayoutManager.VERTICAL,  false)
         }
     }
 
     override fun onClick(v: View?) {
         val view = v as Button? ?: return
         keyboardViewModel.appendCharacter(view.text.toString())
+    }
+    private fun expandRecyclerView() {
+        with(binding){
+            expandableContainer.visibility = View.VISIBLE
+            expandableContainer.pivotY = 0f // Expansión desde la parte superior
+            val animator = ValueAnimator.ofFloat(0f, 1f)
+            animator.addUpdateListener { animation ->
+                val scale = animation.animatedValue as Float
+                expandableContainer.scaleY = scale
+            }
+            animator.duration = 300
+            animator.start()
+        }
+    }
+
+    private fun collapseRecyclerView() {
+        with(binding){
+            val animator = ValueAnimator.ofFloat(1f, 0f)
+            animator.addUpdateListener { animation ->
+                val scale = animation.animatedValue as Float
+                expandableContainer.scaleY = scale
+            }
+            animator.addListener(object : Animator.AnimatorListener {
+                override fun onAnimationEnd(animation: Animator) {
+                    expandableContainer.visibility = View.GONE
+                }
+
+                override fun onAnimationStart(animation: Animator) {}
+                override fun onAnimationCancel(animation: Animator) {}
+                override fun onAnimationRepeat(animation: Animator) {}
+            })
+            animator.duration = 300
+            animator.start()
+        }
     }
 }

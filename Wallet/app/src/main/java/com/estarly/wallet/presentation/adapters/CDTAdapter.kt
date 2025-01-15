@@ -47,7 +47,10 @@ class CDTAdapter(
         this@CDTAdapter.total = total
         notifyItemChanged(0)
     }
-    fun setList    (list: List<CDTModel>)     { this@CDTAdapter.list  = list}
+    fun setList    (list: List<CDTModel>)     {
+        this@CDTAdapter.list  = list
+        notifyDataSetChanged()
+    }
     fun setOnEdit  (onEdit: (CDTModel)->Unit) { this.onEdit = onEdit}
     fun setOnCreate(onCreate: ()->Unit)       { this.onCreate = onCreate}
 }
