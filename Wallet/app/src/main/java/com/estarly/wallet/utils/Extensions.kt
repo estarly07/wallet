@@ -73,3 +73,9 @@ fun String.removeLastCharacter() : String = this.dropLast(1)
 fun Double.doubleToStringWithoutDecimalIfZero(): String
     = if (this % 1.0 == 0.0) { this.toLong().toString() }
       else { this.toString() }
+fun Long.plusDays(days: Int): String {
+    val calendar  = Calendar.getInstance()
+    calendar.time = Date(this)
+    calendar.add(Calendar.DAY_OF_YEAR, days)
+    return SimpleDateFormat("MMM dd, yyyy", Locale("es", "ES")).format(calendar.time)
+}

@@ -11,4 +11,5 @@ data class CDTModel(
     val rteFuente    : Double?,
     val profit       : String = "",
     var dateLastPaidFormatted : String = "",
+    var endDateFormatted : String = "",
 )

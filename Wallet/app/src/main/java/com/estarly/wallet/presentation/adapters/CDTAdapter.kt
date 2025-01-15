@@ -36,9 +36,11 @@ class CDTAdapter(
             }else{
                 val cdt = list[position-1]
                 imgBackgroundItemCedetes.setImageResource(cdt.image)
-                txtDateCDT.text   = cdt.dateLastPaidFormatted
-                txtAmountCDT.text = "$ ${cdt.amount.formatSalary()}"
-                txtProfitCDT.text = "$ ${ cdt.profit }"
+                txtDateCDT.text     = cdt.dateLastPaidFormatted
+                txtAmountCDT.text   = "$ ${cdt.amount.formatSalary()}"
+                txtProfitCDT.text   = "$ ${ cdt.profit }"
+                txtEndDateCDT.text  = cdt.endDateFormatted
+                iconArrow.isVisible = cdt.endDateFormatted.isNotEmpty()
                 btnEditCDT.setOnClickListener { onEdit(cdt) }
             }
         }
