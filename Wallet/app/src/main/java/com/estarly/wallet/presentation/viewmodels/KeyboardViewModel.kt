@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.estarly.wallet.R
+import com.estarly.wallet.domain.models.DebtModel
 import com.estarly.wallet.domain.models.DistributionOfMoneyModel
 import com.estarly.wallet.domain.models.TypeTransactions
+import com.estarly.wallet.domain.usescases.GetAllDebtsDoNotFinishedUseCase
 import com.estarly.wallet.domain.usescases.GetAllDistributionsOfMoneyUseCase
 import com.estarly.wallet.domain.usescases.GetAmountSalaryUseCase
 import com.estarly.wallet.domain.usescases.GetRemainingMoneyUseCase
@@ -19,6 +21,7 @@ class KeyboardViewModel @Inject constructor(
     private val getAllDistributionsOfMoneyUseCase: GetAllDistributionsOfMoneyUseCase,
     private val getRemainingMoneyUseCase: GetRemainingMoneyUseCase,
     private val getAmountSalaryUseCase : GetAmountSalaryUseCase,
+    private val getAllDebtsDoNotFinishedUseCase : GetAllDebtsDoNotFinishedUseCase,
 ) : ViewModel(){
     private val _amount = MutableLiveData("")
     val amount: LiveData<String> = _amount
@@ -28,6 +31,10 @@ class KeyboardViewModel @Inject constructor(
     val distributions: LiveData<List<DistributionOfMoneyModel>> = _distributions
     private val _distributionSelect = MutableLiveData<DistributionOfMoneyModel>()
     val distributionSelect: LiveData<DistributionOfMoneyModel> = _distributionSelect
+    private val _debts = MutableLiveData<List<DebtModel>>()
+    val debts: LiveData<List<DebtModel>> = _debts
+    private val _debtSelect = MutableLiveData<DebtModel>()
+    val debtSelect: LiveData<DebtModel> = _debtSelect
     private lateinit var availableAmount : DistributionOfMoneyModel
     private lateinit var typeTransaction: TypeTransactions
     init {
@@ -71,8 +78,13 @@ class KeyboardViewModel @Inject constructor(
             return
         }
         val currentAmount = _amount.value.toString().toDouble()
-        _validAmount.value = currentAmount <= (distributionSelect.value?.amountSaved ?: availableAmount.amountSaved)
-
+        var isValid = currentAmount <= (distributionSelect.value?.amountSaved ?: availableAmount.amountSaved)
+        if(typeTransaction == TypeTransactions.PAY_DEBT && isValid){
+            debtSelect.value?.let {
+                isValid = currentAmount <= debtSelect.value!!.missingAmount
+            }
+        }
+        _validAmount.value = isValid
     }
 
     fun deleteLastCharacter() {
@@ -84,5 +96,22 @@ class KeyboardViewModel @Inject constructor(
         validateAmount()
     }
 
-    fun setTypeTransaction(typeTransaction: TypeTransactions) { this.typeTransaction = typeTransaction }
+    fun setTypeTransaction(typeTransaction: TypeTransactions) {
+        this.typeTransaction = typeTransaction
+        if(this.typeTransaction == TypeTransactions.PAY_DEBT){
+            getDebts()
+        }
+    }
+
+    private fun getDebts() {
+        viewModelScope.launch {
+            val debts = getAllDebtsDoNotFinishedUseCase.invoke()
+            selectDebt(debts.first())
+            _debts.postValue(debts)
+        }
+    }
+    fun selectDebt(debtModel: DebtModel){
+        _debtSelect.value = debtModel
+        validateAmount()
+    }
 }

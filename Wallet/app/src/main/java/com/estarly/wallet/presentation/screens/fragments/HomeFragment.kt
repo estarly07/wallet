@@ -107,7 +107,7 @@ class HomeFragment : Fragment() {
                     if(!it) return@observe
                     val intent = Intent(requireActivity(), KeyboardActivity :: class.java)
                     intent.putExtra(KeyboardActivity.KEY_ARGUMENT, if(isTakeOfMoney) TypeTransactions.TAKE_MONEY_OUT.name else TypeTransactions.DEPOSIT.name)
-                    KeyboardActivity.onFinished = { amount, distribution ->
+                    KeyboardActivity.onFinished = { amount, distribution, _ ->
                         homeViewModel.updateSalary(amount,null, distribution)
                     }
                     requireActivity().startActivity(intent)
@@ -118,16 +118,12 @@ class HomeFragment : Fragment() {
                         Toast.makeText(requireContext(),"No hay deudas",Toast.LENGTH_SHORT).show()
                         return@observe
                     }
-                    PayBottomSheetDialog.showBottomSheetDialog(
-                        requireActivity(),
-                        homeViewModel.listDistributionOfMoney,
-                        debts = homeViewModel.listDebts,
-                        availableMoney = availableMoney,
-                        onDismiss = {homeViewModel.dismissDialogPay()},
-                        onPay = { amount, distribution,debt->
-                            homeViewModel.payDebt(amount,distribution, debt)
-                        }
-                    )
+                    val intent = Intent(requireActivity(), KeyboardActivity :: class.java)
+                    intent.putExtra(KeyboardActivity.KEY_ARGUMENT, TypeTransactions.PAY_DEBT.name)
+                    KeyboardActivity.onFinished = { amount, distribution, debt->
+                        debt?.let { homeViewModel.payDebt(amount,distribution, debt) }
+                    }
+                    requireActivity().startActivity(intent)
                 }
                 showDialogSavingMoney.observe(viewLifecycleOwner){ it ->
                     if(!it) return@observe

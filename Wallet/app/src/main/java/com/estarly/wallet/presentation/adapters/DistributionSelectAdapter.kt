@@ -13,7 +13,7 @@ class DistributionSelectAdapter(
     private val list: List<DistributionOfMoneyModel>,
     val onClick: (value:DistributionOfMoneyModel?, position: Int?)-> Unit,
 ) : RecyclerView.Adapter<DistributionSelectAdapter.Holder>() {
-    var positionCheck : Int? = null
+    private var positionCheck : Int? = null
     class Holder(val binding: ItemDistributionSelectBinding) : ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder

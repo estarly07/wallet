@@ -3,20 +3,24 @@ package com.estarly.wallet.presentation.screens
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.estarly.wallet.R
 import com.estarly.wallet.databinding.ActivityKeyboardBinding
+import com.estarly.wallet.domain.models.DebtModel
 import com.estarly.wallet.domain.models.DistributionOfMoneyModel
 import com.estarly.wallet.domain.models.TypeTransactions
 import com.estarly.wallet.domain.models.advice
 import com.estarly.wallet.domain.models.name
+import com.estarly.wallet.presentation.adapters.DebtsSelectAdapter
 import com.estarly.wallet.presentation.adapters.DistributionSelectAdapter
 import com.estarly.wallet.presentation.viewmodels.KeyboardViewModel
 import com.estarly.wallet.utils.formatSalary
@@ -27,9 +31,13 @@ class KeyboardActivity : AppCompatActivity(), OnClickListener {
     private lateinit var binding : ActivityKeyboardBinding
     private val keyboardViewModel : KeyboardViewModel by viewModels()
     private lateinit var typeTransaction : TypeTransactions
+    private val debtAdapter =  DebtsSelectAdapter{ debt ->
+        keyboardViewModel.selectDebt(debt)
+        collapseRecyclerView(binding.expandableContainerDebts)
+    }
     companion object{
         const val KEY_ARGUMENT ="KEY_ARGUMENT"
-        var onFinished : ((amount : String, distribution : DistributionOfMoneyModel?) -> Unit)? = null
+        var onFinished : ((amount : String, distribution : DistributionOfMoneyModel?, debt : DebtModel?) -> Unit)? = null
     }
 
 
@@ -64,12 +72,24 @@ class KeyboardActivity : AppCompatActivity(), OnClickListener {
                         imgItemDistribution.setImageResource(it.image)
                     }
                 }
+                debtSelect.observe(this@KeyboardActivity){debt ->
+                    with(btnSelectDebt){
+                        txtNameDebtItem.text = debt.name
+                        txtMissingAmountDebtItem.text = debt.missingAmount.formatSalary()
+                        txtDateDebtItem.text = debt.dateLastPaidFormatted
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            progressDebtItem.setProgress(debt.percentagePaid,true)
+                        }
+                        debtAdapter.selectDebt(debt)
+                    }
+                }
                 distributions.observe(this@KeyboardActivity){
                     recyclerDistributions.adapter = DistributionSelectAdapter(it){distribution, position ->
                         selectDistribution(distribution)
-                        collapseRecyclerView()
+                        collapseRecyclerView(expandableContainer)
                     }
                 }
+                debts.observe(this@KeyboardActivity){ debtAdapter.setList(it) }
             }
         }
     }
@@ -101,7 +121,8 @@ class KeyboardActivity : AppCompatActivity(), OnClickListener {
             btnDone.setOnClickListener {
                 onFinished?.invoke(
                     keyboardViewModel.amount.value!!,
-                    keyboardViewModel.distributionSelect.value
+                    keyboardViewModel.distributionSelect.value,
+                    keyboardViewModel.debtSelect.value
                 )
                 onFinished = null
                 finish()
@@ -110,13 +131,22 @@ class KeyboardActivity : AppCompatActivity(), OnClickListener {
             btnSelectDistribution.imgCheckDistribution.visibility = View.GONE
             btnSelectDistribution.root.setOnClickListener {
                 if (expandableContainer.isVisible) {
-                    collapseRecyclerView()
+                    collapseRecyclerView(expandableContainer)
                 } else {
-                    expandRecyclerView()
+                    expandRecyclerView(expandableContainer)
+                }
+            }
+            btnSelectDebt.root.setOnClickListener {
+                if (expandableContainerDebts.isVisible) {
+                    collapseRecyclerView(expandableContainerDebts)
+                } else {
+                    expandRecyclerView(expandableContainerDebts)
                 }
             }
             txtTitleToolbar.text = typeTransaction.name()
             recyclerDistributions.layoutManager = LinearLayoutManager(this@KeyboardActivity,LinearLayoutManager.VERTICAL,  false)
+            recyclerDebts.layoutManager = LinearLayoutManager(this@KeyboardActivity,LinearLayoutManager.VERTICAL,  false)
+            recyclerDebts.adapter = debtAdapter
         }
     }
 
@@ -124,38 +154,34 @@ class KeyboardActivity : AppCompatActivity(), OnClickListener {
         val view = v as Button? ?: return
         keyboardViewModel.appendCharacter(view.text.toString())
     }
-    private fun expandRecyclerView() {
-        with(binding){
-            expandableContainer.visibility = View.VISIBLE
-            expandableContainer.pivotY = 0f // Expansión desde la parte superior
-            val animator = ValueAnimator.ofFloat(0f, 1f)
-            animator.addUpdateListener { animation ->
-                val scale = animation.animatedValue as Float
-                expandableContainer.scaleY = scale
-            }
-            animator.duration = 300
-            animator.start()
+    private fun expandRecyclerView(expandableContainer : ConstraintLayout) {
+        expandableContainer.visibility = View.VISIBLE
+        expandableContainer.pivotY = 0f // Expansión desde la parte superior
+        val animator = ValueAnimator.ofFloat(0f, 1f)
+        animator.addUpdateListener { animation ->
+            val scale = animation.animatedValue as Float
+            expandableContainer.scaleY = scale
         }
+        animator.duration = 300
+        animator.start()
     }
 
-    private fun collapseRecyclerView() {
-        with(binding){
-            val animator = ValueAnimator.ofFloat(1f, 0f)
-            animator.addUpdateListener { animation ->
-                val scale = animation.animatedValue as Float
-                expandableContainer.scaleY = scale
-            }
-            animator.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationEnd(animation: Animator) {
-                    expandableContainer.visibility = View.GONE
-                }
-
-                override fun onAnimationStart(animation: Animator) {}
-                override fun onAnimationCancel(animation: Animator) {}
-                override fun onAnimationRepeat(animation: Animator) {}
-            })
-            animator.duration = 300
-            animator.start()
+    private fun collapseRecyclerView(expandableContainer : ConstraintLayout) {
+        val animator = ValueAnimator.ofFloat(1f, 0f)
+        animator.addUpdateListener { animation ->
+            val scale = animation.animatedValue as Float
+            expandableContainer.scaleY = scale
         }
+        animator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationEnd(animation: Animator) {
+                expandableContainer.visibility = View.GONE
+            }
+
+            override fun onAnimationStart(animation: Animator) {}
+            override fun onAnimationCancel(animation: Animator) {}
+            override fun onAnimationRepeat(animation: Animator) {}
+        })
+        animator.duration = 300
+        animator.start()
     }
 }

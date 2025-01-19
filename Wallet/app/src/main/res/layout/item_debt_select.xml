@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingVertical="10dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressDebtItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/grayLight2"
+            android:progress="0"
+            app:trackColor="#CACACA" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/avatar_debt"
+            app:tint="@color/grayDark" />
+        <ImageView
+            android:id="@+id/imgCheckDebt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check"
+            android:visibility="gone"
+            app:tint="@color/salary" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtNameDebtItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Name debt"
+            android:textColor="@color/black"
+            android:textSize="@dimen/subtitle"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtDateDebtItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="$145.000.000"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/normal" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtMissingAmountDebtItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="$-145.00"
+        android:textColor="@color/percentagePays"
+        android:textSize="@dimen/normal"
+        android:textStyle="bold" />
+
+</LinearLayout>
