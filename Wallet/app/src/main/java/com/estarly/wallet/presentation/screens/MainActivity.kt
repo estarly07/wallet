@@ -54,23 +54,31 @@ class MainActivity : AppCompatActivity(){
 
     private fun initDrawer() {
         with(binding){
-            navView.setNavigationItemSelectedListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.nav_cedetes   -> { startActivity(Intent(this@MainActivity, CDTActivity::class.java)) }
-                    R.id.nav_debts     -> { startActivity(Intent(this@MainActivity, DebtsActivity::class.java)) }
-                    R.id.nav_purchases -> { startActivity(Intent(this@MainActivity, PendingPurchasesActivity::class.java)) }
-                    R.id.nav_saving_money -> { startActivity(Intent(this@MainActivity, SavingMoneyActivity::class.java)) }
-                    R.id.nav_creation_automatic_distribution -> { startActivity(Intent(this@MainActivity, CreationAutomationDistributionActivity::class.java)) }
-                }
-                drawerLayout.closeDrawers()
-                true
+            with(drawerMenu){
+                navCedetes    .setOnClickListener{ onTapDrawerMenuOption(navCedetes.id) }
+                navDebts      .setOnClickListener{ onTapDrawerMenuOption(navDebts.id) }
+                navPurchases  .setOnClickListener{ onTapDrawerMenuOption(navPurchases.id) }
+                navSavingMoney.setOnClickListener{ onTapDrawerMenuOption(navSavingMoney.id) }
+                navCreationAutomaticDistribution.setOnClickListener{ onTapDrawerMenuOption(navCreationAutomaticDistribution.id)}
             }
+
             openDrawerMenu = object : OpenDrawerMenu{
                 override fun openDrawerMenu() {
                     drawerLayout.openDrawer(navView, true)
                 }
             }
         }
+    }
+
+    private fun onTapDrawerMenuOption(idView : Int) {
+        when(idView){
+            R.id.nav_cedetes ->{ startActivity(Intent(this@MainActivity, CDTActivity::class.java))}
+            R.id.nav_debts ->{ startActivity(Intent(this@MainActivity, DebtsActivity::class.java))}
+            R.id.nav_purchases ->{startActivity(Intent(this@MainActivity, PendingPurchasesActivity::class.java))}
+            R.id.nav_saving_money ->{startActivity(Intent(this@MainActivity, SavingMoneyActivity::class.java))}
+            R.id.nav_creation_automatic_distribution ->{ startActivity(Intent(this@MainActivity, CreationAutomationDistributionActivity::class.java)) }
+        }
+        binding.drawerLayout.closeDrawers()
     }
 
     override fun onBackPressed() {
