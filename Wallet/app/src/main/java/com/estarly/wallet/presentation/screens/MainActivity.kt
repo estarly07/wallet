@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.estarly.wallet.R
 import com.estarly.wallet.databinding.ActivityMainBinding
 import com.estarly.wallet.presentation.adapters.NavigationPagerAdapter
+import com.estarly.wallet.utils.setBackgroundStatus
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setBackgroundStatus(R.color.backgroundHeader)
         initViews()
     }
 

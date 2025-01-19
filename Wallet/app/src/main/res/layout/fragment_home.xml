@@ -1,102 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundScreens"
+    android:background="@color/backgroundHeader"
+    android:orientation="vertical"
     tools:context=".presentation.screens.MainActivity">
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical"
+        android:paddingTop="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <include
+                android:id="@+id/btnDrawerMenu"
+                layout="@layout/wallet_button" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="25dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Bienvenido"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/titleScreen"
+                    android:text="Hola,\nBienvenido"
+                    android:textColor="@color/grayLight"
+                    android:textSize="@dimen/subtitle"
                     android:textStyle="bold" />
-
-                <ImageButton
-                    android:id="@+id/btnDrawerMenu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/backgroundScreens"
-                    android:src="@drawable/ic_menu" />
             </LinearLayout>
 
-            <include
-                android:id="@+id/salaryCard"
-                layout="@layout/salary_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="25dp" />
-
-            <include
-                android:id="@+id/graphic"
-                layout="@layout/graphic_home"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="25dp" />
-
-            <include
-                android:id="@+id/buttons_actions_transactions"
-                layout="@layout/buttons_actions_transactions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp" />
-
-            <TextView
-                android:id="@+id/txtAllTransactions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="25dp"
-                android:text="Transacciones hoy"
-                android:textColor="@color/grayDark"
-                android:textSize="@dimen/subtitle"
-                android:textStyle="bold"
-                app:drawableRightCompat="@drawable/arrow_right" />
-
-            <include
-                android:id="@+id/transactions"
-                layout="@layout/transactions_today_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="15dp" />
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
 
-    <include
-        android:id="@+id/floatingsTransactions"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
-        layout="@layout/floatings_buttons_transactions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</RelativeLayout>
+        <include
+            android:id="@+id/salaryCard"
+            layout="@layout/salary_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"/>
+
+        <include
+            android:id="@+id/graphic"
+            layout="@layout/graphic_home"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="25dp"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/buttons_actions_transactions"
+            layout="@layout/buttons_actions_transactions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp" />
+        <include
+            android:id="@+id/floatingsTransactions"
+            layout="@layout/floatings_buttons_transactions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_corners_top_rounded"
+        android:backgroundTint="@color/white"
+        android:orientation="vertical">
+        <View
+            android:layout_width="50dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="@color/grayDark"
+            android:layout_marginVertical="10dp"/>
+
+        <TextView
+            android:id="@+id/txtAllTransactions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:text="Ultimas Transacciones"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/subtitle"
+            android:textStyle="bold"
+            app:drawableRightCompat="@drawable/arrow_right" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerTransactions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_transaction" />
+
+    </LinearLayout>
+
+</LinearLayout>

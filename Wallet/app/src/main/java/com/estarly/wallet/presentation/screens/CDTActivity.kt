@@ -10,6 +10,7 @@ import com.estarly.wallet.databinding.ActivityCedetesBinding
 import com.estarly.wallet.presentation.adapters.CDTAdapter
 import com.estarly.wallet.presentation.dialogs.CreateCDTSheetDialog
 import com.estarly.wallet.presentation.viewmodels.CDTViewModel
+import com.estarly.wallet.utils.setBackgroundStatus
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
 
@@ -22,6 +23,7 @@ class CDTActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCedetesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setBackgroundStatus(R.color.backgroundHeader)
         initViews()
         getData()
         initObservers()

@@ -63,8 +63,6 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel(){
     private val _salary = MutableLiveData<String>()
     val salary : LiveData<String> = _salary
-    private val _percentageSpent = MutableLiveData<String>()
-    val percentageSpent : LiveData<String> = _percentageSpent
     private val _showDialog = MutableLiveData<Boolean>()
     val showDialog : LiveData<Boolean> = _showDialog
     private val _showDialogSavingMoney = MutableLiveData<Boolean>()
@@ -93,7 +91,6 @@ class HomeViewModel @Inject constructor(
             getSalaryUseCase()
                 .map {
                     totalMoney = it?.amount ?: 0.0
-                    getPercentageSent()
                     availableMoney = getRemainingMoneyUseCase(totalMoney)!!
                     it?.amount?.formatSalary() ?: "0"
                 }
@@ -104,11 +101,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getPercentageSent() {
-        viewModelScope.launch {
-            _percentageSpent.value = "${getPercentageMoneySpentCurrentMonthUseCase().toInt()}%"
-        }
-    }
 
     private fun getDistributions(){
         viewModelScope.launch {

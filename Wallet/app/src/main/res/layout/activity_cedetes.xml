@@ -17,7 +17,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:background="@color/white"
+            android:background="@color/backgroundHeader"
             android:elevation="@dimen/cardElevation"
             android:layout_height="wrap_content">
             <LinearLayout
@@ -34,7 +34,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Tus CDTS"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/titleScreen"
                         android:textStyle="bold" />
 

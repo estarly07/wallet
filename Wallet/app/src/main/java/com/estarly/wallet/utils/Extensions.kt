@@ -1,5 +1,9 @@
 package com.estarly.wallet.utils
 
+import android.app.Activity
+import android.graphics.Color
+import android.view.Window
+import android.view.WindowManager
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -78,4 +82,9 @@ fun Long.plusDays(days: Int): String {
     calendar.time = Date(this)
     calendar.add(Calendar.DAY_OF_YEAR, days)
     return SimpleDateFormat("MMM dd, yyyy", Locale("es", "ES")).format(calendar.time)
+}
+fun Activity.setBackgroundStatus(idColor : Int){
+    val window: Window = window
+    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    window.statusBarColor = resources.getColor(idColor)
 }

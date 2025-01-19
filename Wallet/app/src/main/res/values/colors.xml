@@ -8,10 +8,13 @@
     <color name="grayLight">#8A8A8A</color>
     <color name="grayDark">#5A5A5A</color>
     <color name="backgroundScreens">#FFFFFF</color>
+    <color name="backgroundHeader">#171717</color>
     <!--  Graphic  -->
     <color name="salary">#49c7ef</color>
     <color name="percentageSpent">#9c5ff8</color>
     <color name="percentagePays">#FF5722</color>
     <color name="percentageSaving">#8BC34A</color>
+    <color name="orangeDark">#bf563f</color>
+    <color name="orangeLight">#f9865a</color>
 
 </resources>

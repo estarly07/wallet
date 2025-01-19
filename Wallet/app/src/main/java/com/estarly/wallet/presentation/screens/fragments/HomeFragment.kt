@@ -1,15 +1,15 @@
 package com.estarly.wallet.presentation.screens.fragments
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.estarly.wallet.R
@@ -19,30 +19,25 @@ import com.estarly.wallet.domain.models.TypeTransactions
 import com.estarly.wallet.presentation.adapters.GraphicItemsAdapter
 import com.estarly.wallet.presentation.adapters.TransactionsAdapter
 import com.estarly.wallet.presentation.dialogs.DepositSalaryBottomSheetDialog
-import com.estarly.wallet.presentation.dialogs.PayBottomSheetDialog
 import com.estarly.wallet.presentation.dialogs.SavingOrTakeOffMoneyBottomSheetDialog
 import com.estarly.wallet.presentation.screens.KeyboardActivity
 import com.estarly.wallet.presentation.screens.MainActivity
 import com.estarly.wallet.presentation.screens.TransactionsActivity
 import com.estarly.wallet.presentation.viewmodels.HomeViewModel
 import com.estarly.wallet.utils.animAppear
-import com.estarly.wallet.utils.animRotate
 import com.estarly.wallet.utils.animVanish
-import com.estarly.wallet.utils.animateCascadeLayout
-import com.estarly.wallet.utils.animationTranslateUp
-import com.estarly.wallet.utils.transitionLeft
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
     private val homeViewModel : HomeViewModel by viewModels()
-    private var isFABOpen = false
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHomeBinding.inflate(inflater,container,false)
         return binding.root
@@ -55,34 +50,6 @@ class HomeFragment : Fragment() {
         initObservers()
     }
 
-    override fun onResume() {
-        super.onResume()
-        startAnimations()
-    }
-    private fun startAnimations(){
-        with(binding){
-            buttonsActionsTransactions.root.animateCascadeLayout()
-            buttonsActionsTransactions.root.animAppear()
-
-            with(graphic){
-                recyclerIndicatorsGraphic.animAppear()
-                recyclerIndicatorsGraphic.transitionLeft()
-            }
-        }
-    }
-    private fun returnAnimations(){
-        with(binding){
-            buttonsActionsTransactions.root.visibility = View.INVISIBLE
-            with(graphic){
-                recyclerIndicatorsGraphic.visibility = View.INVISIBLE
-            }
-        }
-    }
-
-    override fun onPause() {
-        returnAnimations()
-        super.onPause()
-    }
     private fun initObservers() {
         with(binding){
             with(homeViewModel){
@@ -99,9 +66,6 @@ class HomeFragment : Fragment() {
                         salaryCard.txtSalary.animVanish()
                         salaryCard.imgNoVisibleSalary.animAppear()
                     }
-                }
-                percentageSpent.observe(viewLifecycleOwner){
-                    salaryCard.txtPercentageSpent.text = it
                 }
                 showDialog.observe(viewLifecycleOwner){
                     if(!it) return@observe
@@ -144,7 +108,7 @@ class HomeFragment : Fragment() {
                     )
                 }
                 lastThreeTransactions.observe(viewLifecycleOwner){
-                    transactions.recyclerTransactions.adapter = TransactionsAdapter(it)
+                    recyclerTransactions.adapter = TransactionsAdapter(it)
                 }
                 entriesEntries.observe(viewLifecycleOwner){
                     val pieChart: PieChart = graphic.pieChart
@@ -181,34 +145,26 @@ class HomeFragment : Fragment() {
 
     private fun initViews() {
         with(binding) {
-            floatingsTransactions.fabMain.animRotate()
             floatingsTransactions.fabDepositAutomatic.setOnClickListener {
-                closeFABMenu()
                 homeViewModel.depositAutomatic(requireContext())
             }
             floatingsTransactions.fabUserSalary.setOnClickListener {
-                closeFABMenu()
                 homeViewModel.showDialogDepositSalary()
             }
             floatingsTransactions.fabSavingTransaction.setOnClickListener {
-                closeFABMenu()
                 homeViewModel.showDialogSavingMoney()
             }
-            floatingsTransactions.fabMain.setOnClickListener {
-                if (isFABOpen) {
-                    closeFABMenu()
-                } else {
-                    showFABMenu()
-                }
-                floatingsTransactions.fabMain.animRotate(isFABOpen)
-            }
+
             salaryCard.btnVisibilityBalance.setOnClickListener {
                 homeViewModel.changeVisibilityBalance()
             }
-            btnDrawerMenu.setOnClickListener {MainActivity.openDrawerMenu?.openDrawerMenu() }
+            btnDrawerMenu.icon.setImageResource(R.drawable.ic_menu)
+            btnDrawerMenu.icon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.white))
+            btnDrawerMenu.card.setCardBackgroundColor(resources.getColor(R.color.grayLight))
+            btnDrawerMenu.root.setOnClickListener {MainActivity.openDrawerMenu?.openDrawerMenu() }
             buttonsActionsTransactions.btnToDeposit.setOnClickListener {homeViewModel.showDialog() }
             buttonsActionsTransactions.btnTakeOut.setOnClickListener {homeViewModel.showDialog(true) }
-            buttonsActionsTransactions.btnToPay.setOnClickListener {homeViewModel.showDialogPay() }
+            floatingsTransactions.btnToPay.setOnClickListener {homeViewModel.showDialogPay() }
 
             graphic.recyclerIndicatorsGraphic.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             graphic.recyclerIndicatorsGraphic.adapter = GraphicItemsAdapter(listOf(
@@ -217,41 +173,10 @@ class HomeFragment : Fragment() {
                 ItemGraphic("Pagos",R.color.percentagePays) ,
                 ItemGraphic("Ahorro",R.color.percentageSaving) ,
             ))
-            transactions.recyclerTransactions.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            transactions.recyclerTransactions.isNestedScrollingEnabled = false
+            recyclerTransactions.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
             txtAllTransactions.setOnClickListener { startActivity(Intent(requireActivity(), TransactionsActivity::class.java)) }
         }
     }
-    private fun showFABMenu() {
-        with(binding){
-            isFABOpen = true
-            Log.i("showFABMenu","showFABMenu")
-            floatingsTransactions.fabDepositAutomatic.animationTranslateUp(true, hasAnimationDone = {
-                floatingsTransactions.txtDepositAutomatic.animAppear()
-            })
-            floatingsTransactions.fabSavingTransaction.animationTranslateUp(true, hasAnimationDone = {
-                floatingsTransactions.txtSavingTransaction.animAppear()
-            })
-            floatingsTransactions.fabUserSalary.animationTranslateUp(true, hasAnimationDone = {
-                floatingsTransactions.txtUserSalary.animAppear()
-            })
-            floatingsTransactions.fabUserSalary.animAppear()
-            floatingsTransactions.fabDepositAutomatic.animAppear()
-            floatingsTransactions.fabSavingTransaction.animAppear()
-        }
-    }
 
-    private fun closeFABMenu() {
-        with(binding){
-            Log.i("closeFABMenu","closeFABMenu")
-            isFABOpen = false
-            floatingsTransactions.fabDepositAutomatic.animationTranslateUp()
-            floatingsTransactions.fabSavingTransaction.animationTranslateUp()
-            floatingsTransactions.fabUserSalary.animationTranslateUp()
-            floatingsTransactions.txtUserSalary.animVanish()
-            floatingsTransactions.txtDepositAutomatic.animVanish()
-            floatingsTransactions.txtSavingTransaction.animVanish()
-        }
-    }
 }
