@@ -10,7 +10,7 @@ import com.estarly.wallet.databinding.ItemTransactionBinding
 import com.estarly.wallet.domain.models.TransactionModel
 import com.estarly.wallet.utils.formatSalary
 
-class TransactionsAdapter(val listTransactions: List<TransactionModel>) : RecyclerView.Adapter<TransactionsAdapter.Holder>() {
+class TransactionsAdapter(private val listTransactions: List<TransactionModel>,private val onTap : (TransactionModel) -> Unit) : RecyclerView.Adapter<TransactionsAdapter.Holder>() {
     class Holder(val binding: ItemTransactionBinding) : ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder
@@ -21,9 +21,7 @@ class TransactionsAdapter(val listTransactions: List<TransactionModel>) : Recycl
     override fun onBindViewHolder(holder: Holder, position: Int) {
         with(holder.binding){
             val transaction = listTransactions[position]
-            if(position == listTransactions.size-1){
-//                separator.visibility = GONE
-            }
+            root.setOnClickListener { onTap(transaction) }
             txtAmountTransaction.text = transaction.amount.formatSalary()
             txtDescriptionTransaction.text = transaction.description
             txtDateTransaction.text = transaction.dateFormatted

@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Wallet"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.screens.DetailTransactionActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.screens.KeyboardActivity"
             android:exported="false" />
         <activity

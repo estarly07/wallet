@@ -1,5 +1,6 @@
 package com.estarly.wallet.presentation.screens
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -32,7 +33,10 @@ class TransactionsActivity : AppCompatActivity() {
         with(binding){
             with(transactionViewModel){
                 listTransactions.observe(this@TransactionsActivity){
-                    recyclerAllTransactions.adapter = TransactionsAdapter(it)
+                    recyclerAllTransactions.adapter = TransactionsAdapter(it){
+                        DetailTransactionActivity.transaction = it
+                        startActivity(Intent(this@TransactionsActivity, DetailTransactionActivity::class.java))
+                    }
                 }
             }
         }

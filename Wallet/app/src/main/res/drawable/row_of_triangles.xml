@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="40dp"
+    android:viewportWidth="400"
+    android:viewportHeight="100">
+
+    <!-- Triángulo rectángulo izquierdo (apuntando hacia abajo) -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M0,40 L40,0 L0,0 Z" />
+
+    <!-- Primer triángulo equilátero -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M50,40 L90,0 L10,0 Z" />
+
+    <!-- Segundo triángulo equilátero -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M100,40 L140,0 L60,0 Z" />
+
+    <!-- Tercer triángulo equilátero -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M150,40 L190,0 L110,0 Z" />
+
+    <!-- Cuarto triángulo equilátero -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M200,40 L240,0 L160,0 Z" />
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M250,40 L290,0 L210,0 Z" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M300,40 L340,0 L260,0 Z" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M350,40 L390,0 L310,0 Z" />
+
+    <!-- Triángulo rectángulo derecho (apuntando hacia la izquierda) -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M360,0 L400,0 L400,40 Z" />
+</vector>
+
+
+
+
+

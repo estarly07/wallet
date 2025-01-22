@@ -20,6 +20,7 @@ import com.estarly.wallet.presentation.adapters.GraphicItemsAdapter
 import com.estarly.wallet.presentation.adapters.TransactionsAdapter
 import com.estarly.wallet.presentation.dialogs.DepositSalaryBottomSheetDialog
 import com.estarly.wallet.presentation.dialogs.SavingOrTakeOffMoneyBottomSheetDialog
+import com.estarly.wallet.presentation.screens.DetailTransactionActivity
 import com.estarly.wallet.presentation.screens.KeyboardActivity
 import com.estarly.wallet.presentation.screens.MainActivity
 import com.estarly.wallet.presentation.screens.TransactionsActivity
@@ -108,7 +109,10 @@ class HomeFragment : Fragment() {
                     )
                 }
                 lastThreeTransactions.observe(viewLifecycleOwner){
-                    recyclerTransactions.adapter = TransactionsAdapter(it)
+                    recyclerTransactions.adapter = TransactionsAdapter(it){
+                        DetailTransactionActivity.transaction = it
+                        startActivity(Intent(requireActivity(), DetailTransactionActivity::class.java))
+                    }
                 }
                 entriesEntries.observe(viewLifecycleOwner){
                     val pieChart: PieChart = graphic.pieChart
