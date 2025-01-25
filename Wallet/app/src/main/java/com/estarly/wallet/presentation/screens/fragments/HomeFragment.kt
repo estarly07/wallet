@@ -4,7 +4,9 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +27,7 @@ import com.estarly.wallet.presentation.screens.KeyboardActivity
 import com.estarly.wallet.presentation.screens.MainActivity
 import com.estarly.wallet.presentation.screens.TransactionsActivity
 import com.estarly.wallet.presentation.viewmodels.HomeViewModel
+import com.estarly.wallet.presentation.workers.initAlertWorker
 import com.estarly.wallet.utils.animAppear
 import com.estarly.wallet.utils.animVanish
 import com.github.mikephil.charting.charts.PieChart
@@ -39,6 +42,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
     private val homeViewModel : HomeViewModel by viewModels()
+    private  val REQUEST_CODE_OVERLAY_PERMISSION = 123
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHomeBinding.inflate(inflater,container,false)
         return binding.root
@@ -180,7 +185,13 @@ class HomeFragment : Fragment() {
             recyclerTransactions.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
             txtAllTransactions.setOnClickListener { startActivity(Intent(requireActivity(), TransactionsActivity::class.java)) }
+            if (!Settings.canDrawOverlays(requireContext())) {
+                val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION).apply {
+                    data = Uri.parse("package:${requireContext().packageName}")
+                }
+                startActivityForResult(intent, REQUEST_CODE_OVERLAY_PERMISSION)
+            }
+            requireContext().initAlertWorker()
         }
     }
-
 }

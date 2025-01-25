@@ -11,4 +11,5 @@ class GetAllCDTSUseCase @Inject constructor(
     private val  cdtRepository: CDTRepository
 ) {
     suspend operator fun invoke(): Flow<List<CDTModel>?> = cdtRepository.cdts
+    suspend  fun getAll(): List<CDTModel> = cdtRepository.getCDTS()
 }

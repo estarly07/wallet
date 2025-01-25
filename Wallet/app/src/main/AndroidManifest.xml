@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".presentation.WalletApp"
@@ -17,6 +19,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wallet"
         tools:targetApi="31">
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            tools:node="remove">
+        </provider>
+        <service android:name=".presentation.FloatingAlertService" />
         <activity
             android:name=".presentation.screens.DetailTransactionActivity"
             android:exported="false" />
