@@ -22,6 +22,7 @@ import com.estarly.wallet.presentation.adapters.GraphicItemsAdapter
 import com.estarly.wallet.presentation.adapters.TransactionsAdapter
 import com.estarly.wallet.presentation.dialogs.DepositSalaryBottomSheetDialog
 import com.estarly.wallet.presentation.dialogs.SavingOrTakeOffMoneyBottomSheetDialog
+import com.estarly.wallet.presentation.screens.CreationAutomationDistributionActivity
 import com.estarly.wallet.presentation.screens.DetailTransactionActivity
 import com.estarly.wallet.presentation.screens.KeyboardActivity
 import com.estarly.wallet.presentation.screens.MainActivity
@@ -155,7 +156,7 @@ class HomeFragment : Fragment() {
     private fun initViews() {
         with(binding) {
             floatingsTransactions.fabDepositAutomatic.setOnClickListener {
-                homeViewModel.depositAutomatic(requireContext())
+                requireActivity().startActivity(Intent(requireActivity(), CreationAutomationDistributionActivity :: class.java))
             }
             floatingsTransactions.fabUserSalary.setOnClickListener {
                 homeViewModel.showDialogDepositSalary()

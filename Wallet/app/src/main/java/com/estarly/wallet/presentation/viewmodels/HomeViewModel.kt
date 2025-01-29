@@ -54,7 +54,6 @@ class HomeViewModel @Inject constructor(
     private val getAllDebtsDoNotFinishedUseCase: GetAllDebtsDoNotFinishedUseCase,
     private val payDebtUseCase: PayDebtUseCase,
     private val getPercentageMoneySpentCurrentMonthUseCase: GetPercentageMoneySpentCurrentMonthUseCase,
-    private val distributionAutomaticUseCase: DistributionAutomaticUseCase,
     private val savingMoneyUseCase: SavingMoneyUseCase,
     private val getSavingMoneyUseCase : GetSavingMoneyUseCase,
     private val getSalaryUserUseCase : GetSalaryUserUseCase,
@@ -237,17 +236,6 @@ class HomeViewModel @Inject constructor(
             if (amount.isEmpty()) return@launch
             payDebtUseCase(amount, distribution, debt)
         }
-    }
-
-    fun depositAutomatic(context:Context) {
-        showYesOrNoAlertDialog(
-            context,
-            "Alerta",
-            "¡Prepárate para dispersar la suma $${availableMoney.formatSalary()} en todas las configuraciones de distribución que has creado!",
-            onPositive = {
-                viewModelScope.launch { distributionAutomaticUseCase() }
-            }
-        )
     }
 
     fun showDialogSavingMoney() {

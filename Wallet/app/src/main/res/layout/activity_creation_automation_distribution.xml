@@ -1,51 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".presentation.screens.CreationAutomationDistributionActivity">
-    <ImageButton
-        android:id="@+id/btnBackDistribution"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginHorizontal="20dp"
-        android:background="@color/backgroundScreens"
-        android:src="@drawable/ic_back" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="30dp"
-        android:text="Crear automatización"
-        android:textColor="@color/grayDark"
-        android:textSize="@dimen/title"
-        android:textStyle="bold" />
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:text="¡Bienvenido al rincón donde puedes configurar como se distribuye tu dinero! Crea tus reglas y observa cómo se mueve tu dinero de manera automágica según tus ajustes"
-        android:textColor="@color/grayLight"
-        android:textSize="@dimen/normal" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="20dp"
-        android:textStyle="bold"
-        android:text="Aviso: Para poner esto en acción, ten tu dinero listo y dale un toque al botón en la página de inicio, justo al lado del menú. ¡La magia está a un clic de distancia!"
-        android:textColor="@color/grayLight"
-        android:textSize="12sp" />
+        android:orientation="horizontal">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerDistributions"
+        <include
+            android:id="@+id/btnBackDistribution"
+            layout="@layout/wallet_button" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crear automatización 🧐"
+            android:layout_centerInParent="true"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/title" />
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        tools:listitem="@layout/item_distribution_automation" />
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="Saldo disponible"
+                android:textColor="@color/grayLight"
+                android:textSize="@dimen/subtitle"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/titleScreen"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_money"
+                    app:tint="@color/orangeDark" />
+
+                <TextView
+                    android:id="@+id/txtAvailableSalary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:text="1.000.000"
+                    android:textColor="@color/grayDark"
+                    android:textSize="@dimen/titleScreen"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Monto necesario"
+                    android:textColor="@color/grayLight"
+                    android:textSize="@dimen/subtitle"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtRequiredSalary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="$ 2000"
+                    android:textColor="@color/grayLight"
+                    android:textSize="@dimen/subtitle"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:max="100"
+                app:indicatorColor="@color/orangeLight"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnDistribute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/black"
+                    android:drawableEnd="@drawable/ic_pay"
+                    android:drawableTint="@color/white"
+                    android:text="Pagar"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/btnEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/black"
+                    android:drawableEnd="@drawable/ic_edit"
+                    android:drawableTint="@color/white"
+                    android:text="Editar"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                android:text="¡Bienvenido al rincón donde puedes configurar como se distribuye tu dinero! Crea tus reglas y observa cómo se mueve tu dinero de manera automágica según tus ajustes"
+                android:textColor="@color/grayLight"
+                android:textSize="@dimen/normal" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerDistributions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_distribution_automation" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>
